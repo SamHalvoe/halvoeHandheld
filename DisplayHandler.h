@@ -28,6 +28,7 @@ HX8357_t3n displayDevice(TFT_CS_PIN, TFT_DC_PIN, TFT_RESET_PIN, TFT_MOSI_PIN, TF
 DMAMEM uint16_t displayFrameBuffer[displayPixelNumber];
 
 EXTMEM GFXcanvas8Extmem rectangle(200, 300);
+//GFXcanvas8 rectangle(200, 300);
 
 Adafruit_FT5336 touchDevice;
 
@@ -43,11 +44,13 @@ void setupColorPalette()
 
 void setupDisplay()
 {
-  Serial.println("---- Display Setup Begin ----");
+  setupColorPalette();
 
+  Serial.println("---- Display Setup Begin ----");
+  
   analogWrite(TFT_BACKLIGHT_PIN, 255);
 
-  delay(2000);
+  delay(1000);
   displayDevice.begin(TFT_SPI_FREQ);
   displayDevice.setFrameBuffer(displayFrameBuffer);
   displayDevice.updateChangedAreasOnly(true);
