@@ -1,26 +1,23 @@
+#include "halvoeLogging.h"
 #include "DisplayHandler.h"
+#include "halvoeLabel.h"
 
-void setupSerial()
-{
-  Serial.begin(9600);
-
-  elapsedMillis initialisationTime;
-  while (not Serial && initialisationTime < 10000);
-
-  if (Serial)
-  {
-    Serial.println("Serial is ready");
-    Serial.println("(initialisationTime: " + String(initialisationTime) + " ms)");
-  }
-}
+DisplayHandler displayHandler;
+Label label(&displayHandler.getFrameCanvas(), "Test", 64, 64);
 
 void setup()
 {
-  setupSerial();
-  setupDisplay();
+  halvoeHandheld::setupSerial();
+  halvoeHandheld::logVersion();
+
+  displayHandler.begin();
+  label.draw();
+  //displayHandler.setChangedArea(0, 0, DisplayHandler::TFT_PIXEL_WIDTH, DisplayHandler::TFT_PIXEL_HEIGHT);
+  displayHandler.setChangedArea(label.getBoundingBox());
 }
 
 void loop()
 {
-  delay(1000);
+  displayHandler.updateScreen();
+  delay(250);
 }
