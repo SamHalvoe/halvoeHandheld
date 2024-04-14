@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Adafruit_GFX.h>
-#include <HX8357_t3n.h>
+#include <Adafruit_ILI9341.h>
 
 #include "halvoeBoundingBox.h"
 
@@ -13,9 +13,9 @@ class Label
     BoundingBox m_boundingBox;
     uint8_t m_textSizeX = 1;
     uint8_t m_textSizeY = 1;
-    uint16_t m_foregroundColor = HX8357_WHITE;
-    uint16_t m_backgroundColor = HX8357_BLACK;
-    uint16_t m_outlineColor = HX8357_BLACK;
+    uint16_t m_foregroundColor = ILI9341_WHITE;
+    uint16_t m_backgroundColor = ILI9341_BLACK;
+    uint16_t m_outlineColor = ILI9341_BLACK;
 
   protected:
     void updateXRightYDown()
@@ -36,9 +36,9 @@ class Label
     Label(Adafruit_GFX* io_canvas, const String& in_text,
           int16_t in_x = 0, int16_t in_y = 0,
           uint8_t in_textSizeX = 1, uint8_t in_textSizeY = 1,
-          uint16_t in_foregroundColor = HX8357_WHITE,
-          uint16_t in_backgroundColor = HX8357_BLACK,
-          uint16_t in_outlineColor = HX8357_BLACK) :
+          uint16_t in_foregroundColor = ILI9341_WHITE,
+          uint16_t in_backgroundColor = ILI9341_BLACK,
+          uint16_t in_outlineColor = ILI9341_BLACK) :
       m_canvas(io_canvas), m_text(in_text),
       m_textSizeX(in_textSizeX), m_textSizeY(in_textSizeY),
       m_foregroundColor(in_foregroundColor),
