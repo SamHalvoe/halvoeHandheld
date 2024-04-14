@@ -13,7 +13,7 @@ namespace halvoeHandheld
 
     if (Serial)
     {
-      Serial.println("Serial is ready");
+      Serial.print("Serial is ready ");
       Serial.println("(initialisationTime: " + String(initialisationTime) + " ms)");
     }
   }

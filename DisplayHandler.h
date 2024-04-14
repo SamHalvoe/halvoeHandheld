@@ -3,20 +3,26 @@
 #include <array>
 
 #include <Adafruit_GFX.h>
-#include <HX8357_t3n.h>
-#include <Adafruit_FT5336.h>
+#include <ILI9341_T4.h>
+#include <Adafruit_FT6206.h>
 
 #include "halvoeBoundingBox.h"
 #include "GFXcanvasExtmem.h"
 
-EXTMEM GFXcanvas8Extmem rectangle(32, 48);
+//EXTMEM GFXcanvas8Extmem rectangle(32, 48);
+
+namespace DisplayHandlerGlobal
+{
+  const uint16_t TFT_PIXEL_WIDTH = 240;
+  const uint16_t TFT_PIXEL_HEIGHT = 320;
+  const uint32_t TFT_PIXEL_COUNT = TFT_PIXEL_WIDTH * TFT_PIXEL_HEIGHT;
+
+  DMAMEM uint16_t frameBuffer[TFT_PIXEL_COUNT];
+}
 
 class DisplayHandler
 {
   public:
-    static const uint16_t TFT_PIXEL_WIDTH = 320;
-    static const uint16_t TFT_PIXEL_HEIGHT = 480;
-    static const uint32_t TFT_PIXEL_COUNT = TFT_PIXEL_WIDTH * TFT_PIXEL_HEIGHT;
     static const uint32_t TFT_SPI_FREQ = 30000000;
     static const uint8_t TFT_BACKLIGHT_PIN = 9;
     static const uint8_t TFT_RESET_PIN = 8;
@@ -31,25 +37,27 @@ class DisplayHandler
     //static const uint8_t MAX_TOUCH_COUNT = 5;
 
   private:
-    HX8357_t3n m_displayDevice;
-    GFXcanvas16 m_frameCanvas; //uint16_t m_frameBuffer[TFT_PIXEL_COUNT];
+    ILI9341_T4::ILI9341Driver m_displayDevice;
+    ILI9341_T4::DiffBuffStatic<8192> m_diffBuffer1;
+    ILI9341_T4::DiffBuffStatic<8192> m_diffBuffer2;
+    GFXcanvas16 m_frameCanvas;
     std::array<uint16_t, 256> m_colorPalette;
 
-    //Adafruit_FT5336 m_touchDevice;
+    //Adafruit_FT6206 m_touchDevice;
 
   private:
     void setupColorPalette()
     {
-      m_colorPalette.fill(HX8357_BLACK);
-      m_colorPalette.at(1) = HX8357_RED;
-      m_colorPalette.at(2) = HX8357_GREEN;
-      m_colorPalette.at(3) = HX8357_BLUE;
+      m_colorPalette.fill(ILI9341_T4_COLOR_BLACK);
+      m_colorPalette.at(1) = ILI9341_T4_COLOR_RED;
+      m_colorPalette.at(2) = ILI9341_T4_COLOR_GREEN;
+      m_colorPalette.at(3) = ILI9341_T4_COLOR_BLUE;
     }
 
   public:
     DisplayHandler() :
-      m_displayDevice(TFT_CS_PIN, TFT_DC_PIN, TFT_RESET_PIN, TFT_MOSI_PIN, TFT_SCK_PIN, TFT_MISO_PIN),
-      m_frameCanvas(TFT_PIXEL_WIDTH, TFT_PIXEL_HEIGHT)
+      m_displayDevice(TFT_CS_PIN, TFT_DC_PIN, TFT_SCK_PIN, TFT_MOSI_PIN, TFT_MISO_PIN, TFT_RESET_PIN),
+      m_frameCanvas(DisplayHandlerGlobal::TFT_PIXEL_HEIGHT, DisplayHandlerGlobal::TFT_PIXEL_WIDTH)
     {
       setupColorPalette();
     }
@@ -60,69 +68,49 @@ class DisplayHandler
       
       analogWrite(TFT_BACKLIGHT_PIN, 255);
 
-      delay(1000);
-      m_displayDevice.begin(TFT_SPI_FREQ);
-      m_displayDevice.setFrameBuffer(/*m_frameBuffer);*/m_frameCanvas.getBuffer());
-      m_displayDevice.useFrameBuffer(true);
-      m_displayDevice.updateChangedAreasOnly(true);
+      delay(5000);
 
-      m_displayDevice.fillScreen(HX8357_BLACK);
-      m_displayDevice.updateScreen();
+      m_displayDevice.output(&Serial);                // output debug infos to serial port.     
+      
+      bool isSuccessful = m_displayDevice.begin(TFT_SPI_FREQ);
 
-      Serial.println("-- Display Infos Begin --");
+      if (not isSuccessful)
+      {
+        Serial.println("ERROR: Could not initialise displayDevice!");
 
-      uint8_t displayPowerMode = m_displayDevice.readcommand8(HX8357_RDMODE);
-      Serial.print("Display Power Mode: 0x"); Serial.println(displayPowerMode, HEX);
-      uint8_t madCtlMode = m_displayDevice.readcommand8(HX8357_RDMADCTL);
-      Serial.print("MADCTL Mode: 0x"); Serial.println(madCtlMode, HEX);
-      uint8_t pixelFormat = m_displayDevice.readcommand8(HX8357_RDPIXFMT);
-      Serial.print("Pixel Format: 0x"); Serial.println(pixelFormat, HEX);
-      uint8_t imageFormat = m_displayDevice.readcommand8(HX8357_RDIMGFMT);
-      Serial.print("Image Format: 0x"); Serial.println(imageFormat, HEX);
-      uint8_t selfDiagnostic = m_displayDevice.readcommand8(HX8357_RDSELFDIAG);
-      Serial.print("Self Diagnostic: 0x"); Serial.println(selfDiagnostic, HEX);
-
-      Serial.println("-- Display Infos End --");
+        return false;
+      }
+      
+      m_displayDevice.setRotation(1);                 // landscape mode 240x320
+      m_displayDevice.setFramebuffer(DisplayHandlerGlobal::frameBuffer);  // set the internal framebuffer (enables double buffering)
+      m_displayDevice.setDiffBuffers(&m_diffBuffer1, &m_diffBuffer2); // set the 2 diff buffers => activate differential updates.
+      m_displayDevice.setDiffGap(6);                  // use a small gap for the diff buffers
+      m_displayDevice.setRefreshRate(120);            // around 120hz for the display refresh rate. 
+      m_displayDevice.setVSyncSpacing(2);             // set framerate = refreshrate/2 (and enable vsync at the same time). 
 
       //m_touchDevice.begin(FT53XX_DEFAULT_ADDR, &Wire1);
 
-      rectangle.fillScreen(0x01);
-      m_displayDevice.writeRect8BPP(0, 0, rectangle.width(), rectangle.height(), rectangle.getBuffer(), m_colorPalette.data());
-      updateScreen();
+      //rectangle.fillScreen(0x01);
+      m_frameCanvas.cp437(true);
+      m_frameCanvas.setTextSize(1);
+      m_frameCanvas.fillScreen(ILI9341_T4_COLOR_GREEN);
+      m_displayDevice.update(m_frameCanvas.getBuffer());
 
       Serial.println("---- Display Setup End ----");
 
-      return selfDiagnostic > 0x00 && selfDiagnostic < 0xFF;
+      return isSuccessful;
     }
 
     void updateScreen()
     {
-      elapsedMillis timeUpdateScreen;
-      m_displayDevice.updateScreen();
-      Serial.println("timeUpdateScreen: " + String(timeUpdateScreen) + " ms");
+      m_displayDevice.overlayFPS(m_frameCanvas.getBuffer());
 
-      m_displayDevice.updateChangedAreasOnly(true);
+      m_displayDevice.update(m_frameCanvas.getBuffer());
     }
 
-    void updateFullScreenOnce()
+    void printStatus()
     {
-      m_displayDevice.updateChangedAreasOnly(false);
-    }
-
-    void clearChangedArea()
-    {
-      m_displayDevice.clearChangedRange();
-    }
-
-    void setChangedArea(int16_t in_x, int16_t in_y, int16_t in_width, int16_t in_height)
-    {
-      m_displayDevice.updateChangedRange(in_x, in_y, in_width, in_height);
-    }
-
-    void setChangedArea(const BoundingBox& in_boundingBox)
-    {
-      m_displayDevice.updateChangedRange(in_boundingBox.getX(), in_boundingBox.getY(),
-                                         in_boundingBox.getWidth() + 1, in_boundingBox.getHeigth() + 1);
+      m_displayDevice.printStatus();
     }
 
     const GFXcanvas16& getFrameCanvas() const

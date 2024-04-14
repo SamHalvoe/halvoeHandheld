@@ -11,13 +11,13 @@ void setup()
   halvoeHandheld::logVersion();
 
   displayHandler.begin();
-  label.draw();
-  //displayHandler.setChangedArea(0, 0, DisplayHandler::TFT_PIXEL_WIDTH, DisplayHandler::TFT_PIXEL_HEIGHT);
-  displayHandler.setChangedArea(label.getBoundingBox());
 }
 
 void loop()
 {
+  displayHandler.getFrameCanvas().fillScreen(ILI9341_T4_COLOR_BLACK);
+  displayHandler.getFrameCanvas().drawRect(0, 0, displayHandler.getFrameCanvas().width(), displayHandler.getFrameCanvas().height(), ILI9341_T4_COLOR_WHITE);
+  label.draw();
+
   displayHandler.updateScreen();
-  delay(250);
 }
