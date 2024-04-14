@@ -24,13 +24,13 @@ class DisplayHandler
 {
   public:
     static const uint32_t TFT_SPI_FREQ = 30000000;
-    static const uint8_t TFT_BACKLIGHT_PIN = 9;
-    static const uint8_t TFT_RESET_PIN = 8;
-    static const uint8_t TFT_DC_PIN = 0;
-    static const uint8_t TFT_CS_PIN = 7;
-    static const uint8_t TFT_MOSI_PIN = 26;
-    static const uint8_t TFT_MISO_PIN = 1;
-    static const uint8_t TFT_SCK_PIN = 27;
+    static const uint8_t TFT_BACKLIGHT_PIN = 25;
+    static const uint8_t TFT_RESET_PIN = 9;
+    static const uint8_t TFT_DC_PIN = 10;
+    static const uint8_t TFT_CS_PIN = 8;
+    static const uint8_t TFT_MOSI_PIN = 11;
+    static const uint8_t TFT_MISO_PIN = 12;
+    static const uint8_t TFT_SCK_PIN = 13;
     //static const uint8_t TOUCH_SCL_PIN = 16;
     //static const uint8_t TOUCH_SDA_PIN = 17;
 
