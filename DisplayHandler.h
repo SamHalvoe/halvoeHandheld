@@ -68,7 +68,7 @@ class DisplayHandler
       
       analogWrite(TFT_BACKLIGHT_PIN, 255);
 
-      delay(5000);
+      delay(3000);
 
       m_displayDevice.output(&Serial);                // output debug infos to serial port.     
       
@@ -88,6 +88,9 @@ class DisplayHandler
       m_displayDevice.setRefreshRate(120);            // around 120hz for the display refresh rate. 
       m_displayDevice.setVSyncSpacing(2);             // set framerate = refreshrate/2 (and enable vsync at the same time). 
 
+      m_displayDevice.clear(ILI9341_T4_COLOR_BLACK);
+      delay(1000);
+
       //m_touchDevice.begin(FT53XX_DEFAULT_ADDR, &Wire1);
 
       //rectangle.fillScreen(0x01);
@@ -95,6 +98,11 @@ class DisplayHandler
       m_frameCanvas.setTextSize(1);
       m_frameCanvas.fillScreen(ILI9341_T4_COLOR_GREEN);
       m_displayDevice.update(m_frameCanvas.getBuffer());
+      /*m_displayDevice.clear(ILI9341_T4_COLOR_BLACK);
+      delay(1000);
+      m_displayDevice.clear(ILI9341_T4_COLOR_GREEN);
+      delay(1000);
+      m_displayDevice.clear(ILI9341_T4_COLOR_WHITE);*/
 
       Serial.println("---- Display Setup End ----");
 
