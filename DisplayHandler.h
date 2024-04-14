@@ -18,10 +18,10 @@ class DisplayHandler
     static const uint16_t TFT_PIXEL_HEIGHT = 480;
     static const uint32_t TFT_PIXEL_COUNT = TFT_PIXEL_WIDTH * TFT_PIXEL_HEIGHT;
     static const uint32_t TFT_SPI_FREQ = 30000000;
-    static const uint8_t TFT_BACKLIGHT_PIN = 9;
-    static const uint8_t TFT_RESET_PIN = 8;
+    static const uint8_t TFT_BACKLIGHT_PIN = 8;
+    static const uint8_t TFT_RESET_PIN = 7;
     static const uint8_t TFT_DC_PIN = 0;
-    static const uint8_t TFT_CS_PIN = 7;
+    static const uint8_t TFT_CS_PIN = 6;
     static const uint8_t TFT_MOSI_PIN = 26;
     static const uint8_t TFT_MISO_PIN = 1;
     static const uint8_t TFT_SCK_PIN = 27;
