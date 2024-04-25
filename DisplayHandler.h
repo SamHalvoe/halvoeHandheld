@@ -11,6 +11,15 @@
 
 //EXTMEM GFXcanvas8Extmem rectangle(32, 48);
 
+namespace DisplayHandlerGlobal
+{
+  const uint16_t TFT_PIXEL_WIDTH = 240;
+  const uint16_t TFT_PIXEL_HEIGHT = 320;
+  const uint32_t TFT_PIXEL_COUNT = TFT_PIXEL_WIDTH * TFT_PIXEL_HEIGHT;
+
+  DMAMEM uint16_t frameBuffer[TFT_PIXEL_COUNT];
+}
+
 class DisplayHandler
 {
   public:
@@ -29,7 +38,10 @@ class DisplayHandler
     static const uint8_t TOUCH_THRESHHOLD = 64;
 
   private:
-    Adafruit_ILI9341 m_displayDevice;
+    ILI9341_T4::ILI9341Driver m_displayDevice;
+    ILI9341_T4::DiffBuffStatic<8192> m_diffBuffer1;
+    ILI9341_T4::DiffBuffStatic<8192> m_diffBuffer2;
+    GFXcanvas16 m_frameCanvas;
     std::array<uint16_t, 256> m_colorPalette;
 
     uint8_t touchUpdateInterval = 50;
@@ -40,10 +52,10 @@ class DisplayHandler
   private:
     void setupColorPalette()
     {
-      m_colorPalette.fill(ILI9341_BLACK);
-      m_colorPalette.at(1) = ILI9341_RED;
-      m_colorPalette.at(2) = ILI9341_GREEN;
-      m_colorPalette.at(3) = ILI9341_BLUE;
+      m_colorPalette.fill(ILI9341_T4_COLOR_BLACK);
+      m_colorPalette.at(1) = ILI9341_T4_COLOR_RED;
+      m_colorPalette.at(2) = ILI9341_T4_COLOR_GREEN;
+      m_colorPalette.at(3) = ILI9341_T4_COLOR_BLUE;
     }
 
   public:
@@ -134,7 +146,7 @@ class DisplayHandler
       {
         m_touchDevice.readData();
 
-        /*if (m_touchDevice.touches == 2)
+        /*if (m_touchDevice.touches == 2) ?!?!
         {
           uint16_t firstTouchID = m_touchDevice.touchID[0];
           uint16_t secondTouchID = m_touchDevice.touchID[1];
