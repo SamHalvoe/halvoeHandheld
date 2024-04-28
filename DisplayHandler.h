@@ -6,6 +6,7 @@
 #include <ILI9341_T4.h>
 #include <FT6236.h>
 
+#include "halvoeLogging.h"
 #include "halvoeBoundingBox.h"
 #include "GFXcanvasExtmem.h"
 
@@ -75,7 +76,7 @@ class DisplayHandler
 
       delay(3000);
 
-      m_displayDevice.output(&Serial);                // output debug infos to serial port.     
+      m_displayDevice.output(&Serial);                // output debug infos to serial port.
       
       bool isSuccessfulDisplay = m_displayDevice.begin(TFT_SPI_FREQ);
 

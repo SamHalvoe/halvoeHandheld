@@ -1,9 +1,6 @@
 #pragma once
 
-#include <memory>
-
 #include <SD.h>
-#include <StreamUtils.h>
 
 #include "halvoeVersion.h"
 
@@ -29,15 +26,12 @@ class Logger
     static const size_t DEFAULT_SERIAL_BAUDRATE = 115200;
 
   private:
-    bool m_isSerialReady = false;
-    bool m_isFileReady = false;
     File m_file;
-    std::unique_ptr<WriteBufferingStream> m_fileBuffer;
 
   private:
     void printToSerial(const char* in_zeroTerminatedString)
     {
-      if (m_isSerialReady)
+      if (Serial)
       {
         Serial.print(in_zeroTerminatedString);
       }
@@ -45,7 +39,7 @@ class Logger
 
     void printlnToSerial(const char* in_zeroTerminatedString)
     {
-      if (m_isSerialReady)
+      if (Serial)
       {
         Serial.println(in_zeroTerminatedString);
       }
@@ -53,17 +47,17 @@ class Logger
 
     void printToFile(const char* in_zeroTerminatedString)
     {
-      if (m_isFileReady)
+      if (m_file)
       {
-        m_fileBuffer->print(in_zeroTerminatedString);
+        m_file.print(in_zeroTerminatedString);
       }
     }
 
     void printlnToFile(const char* in_zeroTerminatedString)
     {
-      if (m_isFileReady)
+      if (m_file)
       {
-        m_fileBuffer->println(in_zeroTerminatedString);
+        m_file.println(in_zeroTerminatedString);
       }
     }
 
@@ -77,23 +71,17 @@ class Logger
 
       if (Serial)
       {
-        m_isSerialReady = true;
-
         Serial.println();
         Serial.println("Serial logging is ready (initialisationTime: " + String(initialisationTime) + " ms)");
       }
     }
 
-    void setupFile(const char* in_fileName = "main.log",
-                   size_t in_fileBufferSize = DEFAULT_FILE_BUFFER_SIZE)
+    void setupFile(const char* in_fileName = "main.log")
     {
       String path("/");
       path.append(in_fileName);
 
       m_file = SD.open(path.c_str(), FILE_WRITE);
-      m_fileBuffer = std::make_unique<WriteBufferingStream>(m_file, in_fileBufferSize);
-      
-      m_isFileReady = true;
 
       println("File logging is ready");
     }
@@ -148,9 +136,9 @@ class Logger
 
     void flushFile()
     {
-      if (m_isFileReady)
+      if (m_file)
       {
-        m_fileBuffer->flush();
+        m_file.flush();
       }
     }
 
@@ -163,3 +151,8 @@ class Logger
       println("+------------------------------------------------+");
     }
 };
+
+namespace halvoeHandheld
+{
+  Logger logger;
+}

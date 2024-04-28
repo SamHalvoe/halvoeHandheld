@@ -4,7 +4,8 @@
 #include "DisplayHandler.h"
 #include "halvoeLabel.h"
 
-Logger logger;
+using namespace halvoeHandheld;
+
 DisplayHandler displayHandler;
 Label label(&displayHandler.getFrameCanvas(), "Test", 64, 64);
 
@@ -12,7 +13,12 @@ void setup()
 {
   logger.setupSerial();
 
+  delay(1000);
+  Serial.println("DEBUG_00");
   bool isSDInitSuccessful = SD.begin(BUILTIN_SDCARD);
+  Serial.println("DEBUG_01");
+
+  delay(1000);
 
   if (isSDInitSuccessful)
   {
@@ -25,13 +31,14 @@ void setup()
   }
 
   logger.printVersion();
-  logger.flushFile();
 
   Wire.begin();
   //Wire1.begin();
   Wire2.begin();
 
   displayHandler.begin();
+
+  logger.flushFile();
 }
 
 void loop()
