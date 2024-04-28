@@ -4,13 +4,28 @@
 #include "DisplayHandler.h"
 #include "halvoeLabel.h"
 
+Logger logger;
 DisplayHandler displayHandler;
 Label label(&displayHandler.getFrameCanvas(), "Test", 64, 64);
 
 void setup()
 {
-  halvoeHandheld::setupSerial();
-  halvoeHandheld::logVersion();
+  logger.setupSerial();
+
+  bool isSDInitSuccessful = SD.begin(BUILTIN_SDCARD);
+
+  if (isSDInitSuccessful)
+  {
+    logger.println("SD init is successful.", Logger::LT_SERIAL);
+    logger.setupFile();
+  }
+  else
+  {
+    logger.println("SD init failed!", Logger::LT_SERIAL);
+  }
+
+  logger.printVersion();
+  logger.flushFile();
 
   Wire.begin();
   //Wire1.begin();
