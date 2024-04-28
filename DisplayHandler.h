@@ -17,7 +17,7 @@ namespace DisplayHandlerGlobal
   const uint16_t TFT_PIXEL_HEIGHT = 320;
   const uint32_t TFT_PIXEL_COUNT = TFT_PIXEL_WIDTH * TFT_PIXEL_HEIGHT;
 
-  DMAMEM uint16_t frameBuffer[TFT_PIXEL_COUNT];
+  DMAMEM uint16_t frameBuffer[DisplayHandlerGlobal::TFT_PIXEL_COUNT];
 }
 
 class DisplayHandler

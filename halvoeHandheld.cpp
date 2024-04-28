@@ -12,6 +12,10 @@ void setup()
   halvoeHandheld::setupSerial();
   halvoeHandheld::logVersion();
 
+  Wire.begin();
+  //Wire1.begin();
+  Wire2.begin();
+
   displayHandler.begin();
 }
 
