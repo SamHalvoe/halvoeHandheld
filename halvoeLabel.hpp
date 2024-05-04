@@ -3,7 +3,7 @@
 #include <Adafruit_GFX.h>
 #include <ILI9341_T4.h>
 
-#include "halvoeBoundingBox.h"
+#include "halvoeBoundingBox.hpp"
 
 class Label
 {

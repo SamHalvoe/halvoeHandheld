@@ -6,9 +6,9 @@
 #include <ILI9341_T4.h>
 #include <FT6236.h>
 
-#include "halvoeLogging.h"
-#include "halvoeBoundingBox.h"
-#include "GFXcanvasExtmem.h"
+#include "halvoeLogging.hpp"
+#include "halvoeBoundingBox.hpp"
+#include "GFXcanvasExtmem.hpp"
 
 //EXTMEM GFXcanvas8Extmem rectangle(32, 48);
 

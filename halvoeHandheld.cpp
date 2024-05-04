@@ -1,8 +1,8 @@
 #include <Arduino.h>
 
-#include "halvoeLogging.h"
-#include "DisplayHandler.h"
-#include "halvoeLabel.h"
+#include "halvoeLogging.hpp"
+#include "DisplayHandler.hpp"
+#include "halvoeLabel.hpp"
 
 using namespace halvoeHandheld;
 

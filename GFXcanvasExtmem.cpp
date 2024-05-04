@@ -1,4 +1,4 @@
-#include "GFXcanvasExtmem.h"
+#include "GFXcanvasExtmem.hpp"
 
 /**************************************************************************/
 /*!
