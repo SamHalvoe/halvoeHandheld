@@ -9,21 +9,47 @@ using namespace halvoeHandheld;
 DisplayHandler displayHandler;
 Label label(&displayHandler.getFrameCanvas(), "Test", 64, 64);
 
+const uint8_t delaySetupSeconds = 15; // s
+
+void delaySetup()
+{
+  Serial.print("Delay setup by ");
+  Serial.print(delaySetupSeconds);
+  Serial.print(" seconds: ");
+
+  for (uint8_t seconds = 0; seconds < delaySetupSeconds; ++seconds)
+  {
+    delay(1000);
+    Serial.print(".");
+  }
+
+  Serial.println(" Continue setup!");
+}
+
 void setup()
 {
   logger.setupSerial();
 
-  delay(1000);
-  Serial.println("DEBUG_00");
-  bool isSDInitSuccessful = SD.begin(BUILTIN_SDCARD);
-  Serial.println("DEBUG_01");
+  if (CrashReport)
+  {
+    Serial.println(CrashReport);
+    delay(30000);
+  }
 
-  delay(1000);
+  delaySetup();
+
+  Serial.println("DEBUG_00");
+  CrashReport.breadcrumb(1, millis());
+  bool isSDInitSuccessful = sd.begin(SdioConfig(FIFO_SDIO));
+  CrashReport.breadcrumb(2, millis());
+  Serial.println("DEBUG_01");
 
   if (isSDInitSuccessful)
   {
     logger.println("SD init is successful.", Logger::LT_SERIAL);
+    CrashReport.breadcrumb(3, millis());
     logger.setupFile();
+    CrashReport.breadcrumb(4, millis());
   }
   else
   {
@@ -32,13 +58,22 @@ void setup()
 
   logger.printVersion();
 
+  Serial.println("DEBUG_02");
+
   Wire.begin();
   //Wire1.begin();
   Wire2.begin();
 
+  Serial.println("DEBUG_03");
+
   displayHandler.begin();
 
-  logger.flushFile();
+  CrashReport.breadcrumb(5, millis());
+  if (not logger.flushFile())
+  {
+    Serial.println("Error: flushFile failed!");
+  }
+  CrashReport.breadcrumb(6, millis());
 }
 
 void loop()
@@ -49,4 +84,10 @@ void loop()
   
   displayHandler.updateTouch();
   displayHandler.updateScreen();
+
+  /*if (timeSincePrintBatteryStats >= printBatteryStatsInterval)
+  {
+    printBatteryStats();
+    timeSincePrintBatteryStats = 0;
+  }*/
 }

@@ -1,8 +1,10 @@
 #pragma once
 
-#include <SD.h>
+#include <SdFat.h>
 
 #include "halvoeVersion.h"
+
+SdFs sd;
 
 class Logger
 {
@@ -26,7 +28,7 @@ class Logger
     static const size_t DEFAULT_SERIAL_BAUDRATE = 115200;
 
   private:
-    File m_file;
+    FsFile m_file;
 
   private:
     void printToSerial(const char* in_zeroTerminatedString)
@@ -67,7 +69,7 @@ class Logger
       Serial.begin(in_serialBaudrate);
 
       elapsedMillis initialisationTime;
-      while (not Serial && initialisationTime < 10000);
+      while (not Serial && initialisationTime < 15000);
 
       if (Serial)
       {
@@ -81,7 +83,7 @@ class Logger
       String path("/");
       path.append(in_fileName);
 
-      m_file = SD.open(path.c_str(), FILE_WRITE);
+      m_file = sd.open(path, FILE_WRITE);
 
       println("File logging is ready");
     }
@@ -134,12 +136,14 @@ class Logger
       println(in_arduinoString.c_str(), in_logTarget);
     }
 
-    void flushFile()
+    bool flushFile()
     {
       if (m_file)
       {
-        m_file.flush();
+        return m_file.sync();
       }
+
+      return false;
     }
 
     void printVersion()
