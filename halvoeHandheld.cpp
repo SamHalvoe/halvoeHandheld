@@ -1,6 +1,8 @@
 #include <Arduino.h>
 
 #include "halvoeLogging.hpp"
+#include "halvoeSqlite.hpp"
+
 #include "DisplayHandler.hpp"
 #include "halvoeLabel.hpp"
 
@@ -9,15 +11,13 @@ using namespace halvoeHandheld;
 DisplayHandler displayHandler;
 Label label(&displayHandler.getFrameCanvas(), "Test", 64, 64);
 
-const uint8_t delaySetupSeconds = 15; // s
-
-void delaySetup()
+void delaySetup(uint8_t in_seconds = 3)
 {
   Serial.print("Delay setup by ");
-  Serial.print(delaySetupSeconds);
+  Serial.print(in_seconds);
   Serial.print(" seconds: ");
 
-  for (uint8_t seconds = 0; seconds < delaySetupSeconds; ++seconds)
+  for (uint8_t seconds = 0; seconds < in_seconds; ++seconds)
   {
     delay(1000);
     Serial.print(".");
@@ -32,7 +32,9 @@ void setup()
 
   if (CrashReport)
   {
+    Serial.println("CrashReport_BEGIN");
     Serial.println(CrashReport);
+    Serial.println("CrashReport_END");
     delay(30000);
   }
 
@@ -48,7 +50,7 @@ void setup()
   {
     logger.println("SD init is successful.", Logger::LT_SERIAL);
     CrashReport.breadcrumb(3, millis());
-    logger.setupFile();
+    //logger.setupFile();
     CrashReport.breadcrumb(4, millis());
   }
   else
@@ -58,13 +60,9 @@ void setup()
 
   logger.printVersion();
 
-  Serial.println("DEBUG_02");
-
   Wire.begin();
   //Wire1.begin();
   Wire2.begin();
-
-  Serial.println("DEBUG_03");
 
   displayHandler.begin();
 
@@ -74,6 +72,10 @@ void setup()
     Serial.println("Error: flushFile failed!");
   }
   CrashReport.breadcrumb(6, millis());
+
+  Serial.println("testSQLite - Begin");
+  testSQLite();
+  Serial.println("testSQLite - End");
 }
 
 void loop()

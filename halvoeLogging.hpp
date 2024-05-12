@@ -1,10 +1,7 @@
 #pragma once
 
-#include <SdFat.h>
-
+#include "halvoeSD.hpp"
 #include "halvoeVersion.hpp"
-
-SdFs sd;
 
 class Logger
 {
