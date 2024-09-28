@@ -26,6 +26,9 @@ void setup()
 
 void loop()
 {
+  trackballHandler0.update();
+  trackballHandler1.update();
+
   displayHandler.getFrameCanvas().fillScreen(ILI9341_T4_COLOR_BLACK);
   displayHandler.getFrameCanvas().drawRect(0, 0, displayHandler.getFrameCanvas().width(), displayHandler.getFrameCanvas().height(), ILI9341_T4_COLOR_WHITE);
   label.draw();

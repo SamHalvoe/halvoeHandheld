@@ -6,6 +6,7 @@
 #include <ILI9341_T4.h>
 #include <FT6236.h>
 
+#include "halvoeLogging.h"
 #include "halvoeBoundingBox.h"
 #include "GFXcanvasExtmem.h"
 

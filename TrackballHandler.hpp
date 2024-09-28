@@ -2,6 +2,8 @@
 
 #include <pimoroniTrackball.h>
 
+#include "halvoeLogging.h"
+
 class TrackballHandler
 {
 public:
@@ -29,6 +31,7 @@ public:
     {
       wasChanged = m_trackball.read();
 
+      #if HALVOE_LOG_SERIAL_ENABLED && HALVOE_LOG_LEVEL_SERIAL >= 8
       if (wasChanged)
       {
         Serial.print(" ");
@@ -39,10 +42,41 @@ public:
         Serial.print(" ");
         Serial.println(m_trackball.down());
       }
+      #endif // HALVOE_LOG_SERIAL_ENABLED
 
       m_timeSinceUpdate = 0;
     }
 
     return wasChanged;
+  }
+
+  uint8_t up()
+  {
+    return m_trackball.up();
+  }
+
+  uint8_t left()
+  {
+    return m_trackball.left();
+  }
+
+  uint8_t right()
+  {
+    return m_trackball.right();
+  }
+
+  uint8_t down()
+  {
+    return m_trackball.down();
+  }
+
+  bool clicked()
+  {
+    return m_trackball.click();
+  }
+
+  bool released()
+  {
+    return m_trackball.release();
   }
 };
