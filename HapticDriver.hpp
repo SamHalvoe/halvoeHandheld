@@ -23,7 +23,7 @@ namespace halvoeHandheld
       hapticDriver.setWaveform(1, 0);    // end waveform
 
       hapticDriver.go();
-      delay(200);
+      delay(100);
       hapticDriver.stop();
     }
     else

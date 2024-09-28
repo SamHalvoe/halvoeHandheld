@@ -48,5 +48,8 @@
     <ClInclude Include="HapticDriver.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BatteryHandler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
