@@ -1,41 +1,30 @@
 #pragma once
 
-#include <Haptic_Driver.h>
+#include <Adafruit_DRV2605.h>
 
 #include "halvoeLogging.h"
 
 namespace halvoeHandheld
 {
-  Haptic_Driver hapticDriver;
+  Adafruit_DRV2605 hapticDriver;
 
   bool setupHapticDriver()
   {
-    if (hapticDriver.begin(Wire1))
+    if (hapticDriver.begin(&Wire1))
     {
-      if (hapticDriver.defaultMotor())
-      {
-        // Frequency tracking is done by the IC to ensure that the motor is hitting
-        // its resonant frequency. I found that restricting the PCB (squeezing)
-        // raises an error which stops operation because it can not reach resonance.
-        // I disable here to avoid this error. 
-        hapticDriver.enableFreqTrack(false);
+      hapticDriver.selectLibrary(1);
 
-        // set operation mode to I2C
-        hapticDriver.setOperationMode(DRO_MODE);
-        delay(1000);
+      // I2C trigger by sending 'go' command 
+      // default, internal trigger when sending GO command
+      hapticDriver.setMode(DRV2605_MODE_INTTRIG);
+      
+      // set the effect to play
+      hapticDriver.setWaveform(0, 118);  // set effect to play "Long buzz for programmatic stopping – 100%"
+      hapticDriver.setWaveform(1, 0);    // end waveform
 
-        hapticDriver.setVibrate(127);
-        delay(500);
-        hapticDriver.setVibrate(0);
-      }
-      else
-      {
-        #if HALVOE_LOG_SERIAL_ENABLED
-        Serial.println("Setup of haptic driver default motor failed!");
-        #endif // HALVOE_LOG_SERIAL_ENABLED
-
-        return false;
-      }
+      hapticDriver.go();
+      delay(200);
+      hapticDriver.stop();
     }
     else
     {
