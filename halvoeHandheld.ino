@@ -2,6 +2,7 @@
 #include "DisplayHandler.h"
 #include "halvoeLabel.h"
 #include "TrackballHandler.hpp"
+#include "HapticDriver.hpp"
 
 DisplayHandler displayHandler;
 Label label(&displayHandler.getFrameCanvas(), "Test", 64, 64);
@@ -19,6 +20,8 @@ void setup()
 
   Wire.begin();
   Wire1.begin();
+
+  halvoeHandheld::setupHapticDriver();
 
   trackballHandler0.begin(Wire);
   trackballHandler1.begin(Wire1);
