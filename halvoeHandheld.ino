@@ -2,6 +2,7 @@
 #include "BatteryHandler.hpp"
 #include "TrackballHandler.hpp"
 #include "HapticDriver.hpp"
+#include "OrientationHandler.hpp"
 #include "DisplayHandler.h"
 #include "halvoeLabel.h"
 
@@ -25,6 +26,7 @@ void setup()
 
   batteryHandler.begin();
   halvoeHandheld::setupHapticDriver();
+  halvoeHandheld::setupOrientationHandler();
 
   trackballHandler0.begin(Wire);
   trackballHandler1.begin(Wire1);
@@ -43,4 +45,6 @@ void loop()
   
   displayHandler.updateTouch();
   displayHandler.updateScreen();
+
+  halvoeHandheld::updateOrientationHandler();
 }
