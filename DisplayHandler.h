@@ -103,6 +103,9 @@ class DisplayHandler
 
       Serial.println("-- Touch Device Setup Begin --");
 
+      Wire2.begin();
+      delay(500);
+
       pinMode(TOUCH_RESET_PIN, OUTPUT);
       digitalWrite(TOUCH_RESET_PIN, LOW);
       delay(500);
@@ -126,8 +129,17 @@ class DisplayHandler
 
     void updateScreen()
     {
-      m_displayDevice.overlayFPS(m_frameCanvas.getBuffer());
+      if (m_touchPoints[0].pm_x != FT6236_INVALID_STATE)
+      {
+        m_frameCanvas.drawCircle(m_touchPoints[0].pm_y, 240 - m_touchPoints[0].pm_x, 15, ILI9341_T4_COLOR_RED);
+      }
 
+      if (m_touchPoints[1].pm_x != FT6236_INVALID_STATE)
+      {
+        m_frameCanvas.drawCircle(m_touchPoints[1].pm_y, 240 - m_touchPoints[1].pm_x, 15, ILI9341_T4_COLOR_GREEN);
+      }
+
+      m_displayDevice.overlayFPS(m_frameCanvas.getBuffer());
       m_displayDevice.update(m_frameCanvas.getBuffer());
     }
 
@@ -136,6 +148,13 @@ class DisplayHandler
       if (timeSinceTouchUpdated > touchUpdateInterval)
       {
         m_touchDevice.readData();
+
+        if (m_touchDevice.touches == 2) // ?!?!
+        {
+          uint16_t firstTouchID = m_touchDevice.touchID[0];
+          uint16_t secondTouchID = m_touchDevice.touchID[1];
+          
+        }
 
         uint16_t firstTouchID = m_touchDevice.touchID[0];
         uint16_t secondTouchID = m_touchDevice.touchID[1];

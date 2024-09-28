@@ -1,9 +1,11 @@
 #pragma once
 
-#pragma message "Build timestamp: " __DATE__ " " __TIME__
+#define HALVOE_BUILD_TIMESTAMP __DATE__ " " __TIME__
+
+#pragma message "Build timestamp: " HALVOE_BUILD_TIMESTAMP
 
 namespace halvoeHandheld
 {
   constexpr const char* buildVersion = "0.0.1";
-  constexpr const char* buildTimestamp = __DATE__ " " __TIME__;
+  constexpr const char* buildTimestamp = HALVOE_BUILD_TIMESTAMP;
 }

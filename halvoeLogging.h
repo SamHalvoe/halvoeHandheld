@@ -6,7 +6,7 @@ namespace halvoeHandheld
 {
   void setupSerial()
   {
-    Serial.begin(9600);
+    Serial.begin(115200);
 
     elapsedMillis initialisationTime;
     while (not Serial && initialisationTime < 10000);

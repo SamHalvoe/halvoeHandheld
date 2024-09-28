@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM64">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM64">
+      <Configuration>Release</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <Keyword>Linux</Keyword>
+    <RootNamespace>
+    </RootNamespace>
+    <ProjectName>halvoeHandheld</ProjectName>
+    <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
+    <ApplicationType>Linux</ApplicationType>
+    <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
+    <TargetLinuxPlatform>Generic</TargetLinuxPlatform>
+    <LinuxProjectType>{D51BCBC9-82E9-4017-911E-C93873C4EA2B}</LinuxProjectType>
+    <ProjectGuid>{CBC00DA2-91CD-4E10-ADE0-E2CB410CA44E}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <LinuxIncludePath>c:\visualmicro\ignore</LinuxIncludePath>
+    <wiringPiIncludePath>c:\visualmicro\pi-ignore</wiringPiIncludePath>
+    <TargetOSAndVersion>Arduino</TargetOSAndVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <IncludePath>$(ProjectDir)..\halvoeHandheld;$(ProjectDir)..\libraries\Adafruit_GFX_Library;$(ProjectDir)..\libraries\Adafruit_BusIO;$(ProjectDir)..\..\..\..\AppData\Local\Arduino15\packages\teensy\hardware\avr\1.59.0\libraries\Wire;$(ProjectDir)..\libraries\Teensy4_I2C\src;$(ProjectDir)..\..\..\..\AppData\Local\Arduino15\packages\teensy\hardware\avr\1.59.0\libraries\SPI;$(ProjectDir)..\libraries\ILI9341_T4\src;$(ProjectDir)..\libraries\FT6236;$(ProjectDir)..\..\..\..\AppData\Local\Arduino15\packages\teensy\hardware\avr\1.59.0\cores\teensy4;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\arm-none-eabi\thumb\v7e-m+dp\hard;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\backward;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include-fixed;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include;$(ProjectDir)..\libraries\Adafruit_GFX_Library;$(ProjectDir)..\libraries\Adafruit_BusIO;$(ProjectDir)..\..\..\..\AppData\Local\Arduino15\packages\teensy\hardware\avr\1.59.0\libraries\Wire;$(ProjectDir)..\libraries\Teensy4_I2C\src;$(ProjectDir)..\..\..\..\AppData\Local\Arduino15\packages\teensy\hardware\avr\1.59.0\libraries\SPI;$(ProjectDir)..\libraries\ILI9341_T4\src;$(ProjectDir)..\libraries\FT6236</IncludePath>
+    <RemoteCCompileToolExe>$(ProjectDir)..\..\..\..\AppData\Local\Arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\bin\arm-none-eabi-g++</RemoteCCompileToolExe>
+    <RemoteCppCompileToolExe>$(ProjectDir)..\..\..\..\AppData\Local\Arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\bin\arm-none-eabi-g++</RemoteCppCompileToolExe>
+    <ValidateArchitecture>false</ValidateArchitecture>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectCapability Include="VisualMicro" />
+    <ProjectCapability Include="VisualMicroLinux" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GFXcanvasExtmem.cpp">
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="halvoeHandheld.ino">
+      <FileType>CppCode</FileType>
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DisplayHandler.h">
+      <FileType>CppCode</FileType>
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="GFXcanvasExtmem.h">
+      <FileType>CppCode</FileType>
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="halvoeBoundingBox.h">
+      <FileType>CppCode</FileType>
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="halvoeLabel.h">
+      <FileType>CppCode</FileType>
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="halvoeLogging.h">
+      <FileType>CppCode</FileType>
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="halvoeVersion.h">
+      <FileType>CppCode</FileType>
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
+    <ClInclude Include="__vm\.halvoeHandheld.vsarduino.h" />
+  </ItemGroup>
+  <PropertyGroup>
+    <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\halvoeHandheld;$(ProjectDir)..\libraries\Adafruit_GFX_Library;$(ProjectDir)..\libraries\Adafruit_BusIO;$(ProjectDir)..\..\..\..\AppData\Local\Arduino15\packages\teensy\hardware\avr\1.59.0\libraries\Wire;$(ProjectDir)..\libraries\Teensy4_I2C\src;$(ProjectDir)..\..\..\..\AppData\Local\Arduino15\packages\teensy\hardware\avr\1.59.0\libraries\SPI;$(ProjectDir)..\libraries\ILI9341_T4\src;$(ProjectDir)..\libraries\FT6236;$(ProjectDir)..\..\..\..\AppData\Local\Arduino15\packages\teensy\hardware\avr\1.59.0\cores\teensy4;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\arm-none-eabi\thumb\v7e-m+dp\hard;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\backward;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include-fixed;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include;$(ProjectDir)..\libraries\Adafruit_GFX_Library;$(ProjectDir)..\libraries\Adafruit_BusIO;$(ProjectDir)..\..\..\..\AppData\Local\Arduino15\packages\teensy\hardware\avr\1.59.0\libraries\Wire;$(ProjectDir)..\libraries\Teensy4_I2C\src;$(ProjectDir)..\..\..\..\AppData\Local\Arduino15\packages\teensy\hardware\avr\1.59.0\libraries\SPI;$(ProjectDir)..\libraries\ILI9341_T4\src;$(ProjectDir)..\libraries\FT6236;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <GccToolChain>$(ProjectDir)..\..\..\..\AppData\Local\Arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\bin\arm-none-eabi-g++</GccToolChain>
+      <CppLanguageStandard>c++17</CppLanguageStandard>
+      <CLanguageStandard>gnu11</CLanguageStandard>
+      <CAdditionalWarning />
+      <CppAdditionalWarning />
+      <ForcedIncludeFiles>$(ProjectDir)..\..\..\..\..\..\program files\microsoft visual studio\2022\community\common7\ide\extensions\jbmj4m1q.esc\Micro Platforms\default\vm-intelli-pre.h;$(ProjectDir)..\..\..\..\AppData\Local\Temp\VMBuilds\halvoeHandheld\teensy41\Release\.vmintelli\6ed77c7076f0585a7322e967a1423956\vm-intelli-gcc-defines.h;$(ProjectDir)..\..\..\..\..\..\program files\microsoft visual studio\2022\community\common7\ide\extensions\jbmj4m1q.esc\Micro Platforms\default\vm-intelli-post.h;$(ProjectDir)__vm\.halvoeHandheld.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <UndefineAllPreprocessorDefinitions>true</UndefineAllPreprocessorDefinitions>
+      <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
+      <PreprocessorDefinitions>_VMICRO_INTELLISENSE;__TEENSY4_imxrt1062__;__TEENSY4_IMXRT1062__;__IMXRT1062__;TEENSYDUINO=159;ARDUINO=108010;ARDUINO_TEENSY41;F_CPU=600000000;USB_SERIAL;LAYOUT_US_ENGLISH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties arduino.upload.port="usb:80001/3/0/2/1" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
