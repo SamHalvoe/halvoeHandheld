@@ -1,16 +1,27 @@
 #include "halvoeLogging.h"
 #include "DisplayHandler.h"
 #include "halvoeLabel.h"
+#include "TrackballHandler.hpp"
 
 DisplayHandler displayHandler;
 Label label(&displayHandler.getFrameCanvas(), "Test", 64, 64);
+TrackballHandler trackballHandler0;
+TrackballHandler trackballHandler1;
 
 void setup()
 {
+  #if HALVOE_LOG_SERIAL_ENABLED
   halvoeHandheld::setupSerial();
-  halvoeHandheld::logVersion();
+  Serial.print(halvoeHandheld::getVersionString());
+  #endif // HALVOE_LOG_SERIAL_ENABLED
 
   displayHandler.begin();
+
+  Wire.begin();
+  Wire1.begin();
+
+  trackballHandler0.begin(Wire);
+  trackballHandler1.begin(Wire1);
 }
 
 void loop()

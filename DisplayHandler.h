@@ -35,7 +35,7 @@ class DisplayHandler
     static const uint8_t TOUCH_RESET_PIN = 3;
     static const uint8_t TOUCH_SCL_PIN = 24;
     static const uint8_t TOUCH_SDA_PIN = 25;
-    static const uint8_t TOUCH_THRESHHOLD = 64;
+    static const uint8_t TOUCH_THRESHHOLD = 32;
 
   private:
     ILI9341_T4::ILI9341Driver m_displayDevice;
@@ -47,6 +47,7 @@ class DisplayHandler
     uint8_t touchUpdateInterval = 50;
     elapsedMillis timeSinceTouchUpdated;
     FT6236 m_touchDevice;
+    std::array<TouchPoint, 2> m_previousTouchPoints;
     std::array<TouchPoint, 2> m_touchPoints;
 
   private:
@@ -69,19 +70,25 @@ class DisplayHandler
 
     bool begin()
     {
+      #if HALVOE_LOG_SERIAL_ENABLED
       Serial.println("---- Display Setup Begin ----");
-      
+      #endif // HALVOE_LOG_SERIAL_ENABLED
+
       analogWrite(TFT_BACKLIGHT_PIN, 255);
 
       delay(3000);
 
-      m_displayDevice.output(&Serial);                // output debug infos to serial port.     
-      
+      #if HALVOE_LOG_SERIAL_ENABLED
+      m_displayDevice.output(&Serial); // output debug infos to serial port.     
+      #endif // HALVOE_LOG_SERIAL_ENABLED
+
       bool isSuccessfulDisplay = m_displayDevice.begin(TFT_SPI_FREQ);
 
       if (not isSuccessfulDisplay)
       {
+        #if HALVOE_LOG_SERIAL_ENABLED
         Serial.println("ERROR: Could not initialise displayDevice!");
+        #endif // HALVOE_LOG_SERIAL_ENABLED
       }
       
       m_displayDevice.setRotation(1);                 // landscape mode 240x320
@@ -101,7 +108,9 @@ class DisplayHandler
       m_frameCanvas.fillScreen(ILI9341_T4_COLOR_GREEN);
       m_displayDevice.update(m_frameCanvas.getBuffer());
 
+      #if HALVOE_LOG_SERIAL_ENABLED
       Serial.println("-- Touch Device Setup Begin --");
+      #endif // HALVOE_LOG_SERIAL_ENABLED
 
       Wire2.begin();
       delay(500);
@@ -116,13 +125,17 @@ class DisplayHandler
 
       if (not isSuccessfulTouch)
       {
+        #if HALVOE_LOG_SERIAL_ENABLED
         Serial.println("ERROR: Could not initialise touchDevice!");
+        #endif // HALVOE_LOG_SERIAL_ENABLED
       }
 
       m_touchDevice.debug();
 
+      #if HALVOE_LOG_SERIAL_ENABLED
       Serial.println("-- Touch Device Setup End --");
       Serial.println("---- Display Setup End ----");
+      #endif // HALVOE_LOG_SERIAL_ENABLED
 
       return isSuccessfulDisplay && isSuccessfulTouch;
     }
@@ -149,33 +162,24 @@ class DisplayHandler
       {
         m_touchDevice.readData();
 
-        if (m_touchDevice.touches == 2) // ?!?!
-        {
-          uint16_t firstTouchID = m_touchDevice.touchID[0];
-          uint16_t secondTouchID = m_touchDevice.touchID[1];
-          
-        }
-
         uint16_t firstTouchID = m_touchDevice.touchID[0];
         uint16_t secondTouchID = m_touchDevice.touchID[1];
 
-        if (firstTouchID == FT6236_INVALID_STATE)
+        if (firstTouchID < 2)
         {
-          firstTouchID = 1;
-        }
-        else if (secondTouchID == FT6236_INVALID_STATE)
-        {
-          secondTouchID = 1;
+          m_touchPoints[firstTouchID].pm_x = m_touchDevice.touchX[0];
+          m_touchPoints[firstTouchID].pm_y = m_touchDevice.touchY[0];
         }
 
-        m_touchPoints[firstTouchID].pm_x = m_touchDevice.touchX[0];
-        m_touchPoints[firstTouchID].pm_y = m_touchDevice.touchY[0];
-
-        m_touchPoints[secondTouchID].pm_x = m_touchDevice.touchX[1];
-        m_touchPoints[secondTouchID].pm_y = m_touchDevice.touchY[1];
+        if (secondTouchID < 2)
+        {
+          m_touchPoints[secondTouchID].pm_x = m_touchDevice.touchX[1];
+          m_touchPoints[secondTouchID].pm_y = m_touchDevice.touchY[1];
+        }
 
         if (m_touchDevice.touches > 0)
         {
+          #if HALVOE_LOG_SERIAL_ENABLED && HALVOE_LOG_LEVEL_SERIAL >= 9
           Serial.print(m_touchDevice.touches);
           Serial.print(" | ");
           Serial.print(m_touchDevice.touchID[0]);
@@ -200,6 +204,7 @@ class DisplayHandler
           Serial.print(" ");
           Serial.print(m_touchPoints[1].pm_y);
           Serial.println();
+          #endif // HALVOE_LOG_SERIAL_ENABLED
         }
 
         timeSinceTouchUpdated = 0;

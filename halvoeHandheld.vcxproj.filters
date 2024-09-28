@@ -42,5 +42,8 @@
     <ClInclude Include="__vm\.halvoeHandheld.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TrackballHandler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
