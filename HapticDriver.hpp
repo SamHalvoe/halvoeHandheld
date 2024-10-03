@@ -22,9 +22,9 @@ namespace halvoeHandheld
       hapticDriver.setWaveform(0, 118);  // set effect to play "Long buzz for programmatic stopping – 100%"
       hapticDriver.setWaveform(1, 0);    // end waveform
 
-      hapticDriver.go();
+      /*hapticDriver.go();
       delay(100);
-      hapticDriver.stop();
+      hapticDriver.stop();*/
     }
     else
     {

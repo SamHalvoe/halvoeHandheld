@@ -5,6 +5,8 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "halvoeHandheld", "halvoeHandheld.vcxproj", "{CBC00DA2-91CD-4E10-ADE0-E2CB410CA44E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "halvoeAudioBoard", "..\halvoeAudioBoard\halvoeAudioBoard.vcxproj", "{32728F60-D5E2-4F73-8BC5-7652387354AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -25,6 +27,18 @@ Global
 		{CBC00DA2-91CD-4E10-ADE0-E2CB410CA44E}.Release|ARM64.ActiveCfg = Release|ARM64
 		{CBC00DA2-91CD-4E10-ADE0-E2CB410CA44E}.Release|ARM64.Build.0 = Release|ARM64
 		{CBC00DA2-91CD-4E10-ADE0-E2CB410CA44E}.Release|ARM64.Deploy.0 = Release|ARM64
+		{32728F60-D5E2-4F73-8BC5-7652387354AF}.Debug|ARM.ActiveCfg = Debug|ARM
+		{32728F60-D5E2-4F73-8BC5-7652387354AF}.Debug|ARM.Build.0 = Debug|ARM
+		{32728F60-D5E2-4F73-8BC5-7652387354AF}.Debug|ARM.Deploy.0 = Debug|ARM
+		{32728F60-D5E2-4F73-8BC5-7652387354AF}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{32728F60-D5E2-4F73-8BC5-7652387354AF}.Debug|ARM64.Build.0 = Debug|ARM64
+		{32728F60-D5E2-4F73-8BC5-7652387354AF}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{32728F60-D5E2-4F73-8BC5-7652387354AF}.Release|ARM.ActiveCfg = Release|ARM
+		{32728F60-D5E2-4F73-8BC5-7652387354AF}.Release|ARM.Build.0 = Release|ARM
+		{32728F60-D5E2-4F73-8BC5-7652387354AF}.Release|ARM.Deploy.0 = Release|ARM
+		{32728F60-D5E2-4F73-8BC5-7652387354AF}.Release|ARM64.ActiveCfg = Release|ARM64
+		{32728F60-D5E2-4F73-8BC5-7652387354AF}.Release|ARM64.Build.0 = Release|ARM64
+		{32728F60-D5E2-4F73-8BC5-7652387354AF}.Release|ARM64.Deploy.0 = Release|ARM64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

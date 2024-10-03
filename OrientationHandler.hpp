@@ -35,6 +35,7 @@ namespace halvoeHandheld
     switch (bno08xSensorValue.sensorId)
     {
       case SH2_GAME_ROTATION_VECTOR:
+        #if HALVOE_LOG_SERIAL_ENABLED && HALVOE_LOG_LEVEL_SERIAL > 8
         Serial.print("Game Rotation Vector - r: ");
         Serial.print(bno08xSensorValue.un.gameRotationVector.real);
         Serial.print(" i: ");
@@ -43,6 +44,7 @@ namespace halvoeHandheld
         Serial.print(bno08xSensorValue.un.gameRotationVector.j);
         Serial.print(" k: ");
         Serial.println(bno08xSensorValue.un.gameRotationVector.k);
+        #endif // HALVOE_LOG_SERIAL_ENABLED
       break;
     }
   }
