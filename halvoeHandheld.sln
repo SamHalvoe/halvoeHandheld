@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "halvoeHandheld", "halvoeHan
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "halvoeAudioBoard", "..\halvoeAudioBoard\halvoeAudioBoard.vcxproj", "{32728F60-D5E2-4F73-8BC5-7652387354AF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "halvoeAudioBoardSerialInterface", "..\halvoeAudioBoardSerialInterface\halvoeAudioBoardSerialInterface\halvoeAudioBoardSerialInterface.vcxproj", "{8AF45274-FB5C-45D5-983C-511B491EF5FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -39,6 +41,18 @@ Global
 		{32728F60-D5E2-4F73-8BC5-7652387354AF}.Release|ARM64.ActiveCfg = Release|ARM64
 		{32728F60-D5E2-4F73-8BC5-7652387354AF}.Release|ARM64.Build.0 = Release|ARM64
 		{32728F60-D5E2-4F73-8BC5-7652387354AF}.Release|ARM64.Deploy.0 = Release|ARM64
+		{8AF45274-FB5C-45D5-983C-511B491EF5FE}.Debug|ARM.ActiveCfg = Debug|ARM
+		{8AF45274-FB5C-45D5-983C-511B491EF5FE}.Debug|ARM.Build.0 = Debug|ARM
+		{8AF45274-FB5C-45D5-983C-511B491EF5FE}.Debug|ARM.Deploy.0 = Debug|ARM
+		{8AF45274-FB5C-45D5-983C-511B491EF5FE}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{8AF45274-FB5C-45D5-983C-511B491EF5FE}.Debug|ARM64.Build.0 = Debug|ARM64
+		{8AF45274-FB5C-45D5-983C-511B491EF5FE}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{8AF45274-FB5C-45D5-983C-511B491EF5FE}.Release|ARM.ActiveCfg = Release|ARM
+		{8AF45274-FB5C-45D5-983C-511B491EF5FE}.Release|ARM.Build.0 = Release|ARM
+		{8AF45274-FB5C-45D5-983C-511B491EF5FE}.Release|ARM.Deploy.0 = Release|ARM
+		{8AF45274-FB5C-45D5-983C-511B491EF5FE}.Release|ARM64.ActiveCfg = Release|ARM64
+		{8AF45274-FB5C-45D5-983C-511B491EF5FE}.Release|ARM64.Build.0 = Release|ARM64
+		{8AF45274-FB5C-45D5-983C-511B491EF5FE}.Release|ARM64.Deploy.0 = Release|ARM64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
