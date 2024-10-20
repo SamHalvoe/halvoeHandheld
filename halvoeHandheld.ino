@@ -45,11 +45,20 @@ void loop()
 
   if (trackballHandler1.clicked())
   {
-    Serial.println("trackballHandler1 event");
+    Serial.println("trackballHandler1 clicked");
 
     if (audioController.playFile("ddd4416.wav"))
     {
       Serial.println("playFile() is ok");
+    }
+  }
+  else if (trackballHandler0.clicked())
+  {
+    Serial.println("trackballHandler0 clicked");
+
+    if (audioController.endPlayback())
+    {
+      Serial.println("endPlayback() is ok");
     }
   }
 

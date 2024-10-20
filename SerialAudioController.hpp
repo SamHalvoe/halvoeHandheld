@@ -32,6 +32,17 @@ namespace halvoe
 			return sendMessage(message) == bytesWritten;
 		}
 
+		bool endPlayback()
+		{
+			Serial.println("endPlayback()");
+
+			auto message = beginMessage(SerialMessageType::command);
+			message.m_serializer.writeEnum<SerialCommandCode>(SerialCommandCode::endPlayback);
+
+			size_t bytesWritten = message.m_serializer.getBytesWritten();
+			return sendMessage(message) == bytesWritten;
+		}
+
 	private:
 		bool doHandleData(Deserializer<c_deserializerBufferSize>&& in_deserializer, SerialDataCode in_code)
 		{
