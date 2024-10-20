@@ -46,12 +46,11 @@ void loop()
   if (trackballHandler1.clicked())
   {
     Serial.println("trackballHandler1 event");
-    audioController.playFile("ddd4416.wav");
-    /*halvoe::Serializer<128> serializer(serializerBuffer);
-    auto commandLength = serializer.skip<uint16_t>();
-    serializer.write<uint16_t>(42);
-    commandLength.write(serializer.getBytesWritten() - sizeof(uint16_t));
-    Serial3.write(serializerBuffer.data(), serializer.getBytesWritten());*/
+
+    if (audioController.playFile("ddd4416.wav"))
+    {
+      Serial.println("playFile() is ok");
+    }
   }
 
   displayHandler.getFrameCanvas().fillScreen(ILI9341_T4_COLOR_BLACK);
