@@ -25,32 +25,10 @@ namespace halvoe
 			Serial.println("playFile()");
 
 			auto message = beginMessage(SerialMessageType::command);
-			Serial.println(message.m_serializer.getBytesWritten());
 			message.m_serializer.writeEnum<SerialCommandCode>(SerialCommandCode::playFile);
-
-			{
-				Serial.println("after writeEnum()");
-				Deserializer<c_serializerBufferSize> debugDeserializer(m_serializerBuffer);
-				debugDeserializer.template skip<SerialMessageSizeType>();
-				Serial.println(debugDeserializer.template read<uint16_t>(), HEX);
-				Serial.println(debugDeserializer.template read<uint16_t>(), HEX);
-				Serial.println(static_cast<std::underlying_type<SerialMessageType>::type>(debugDeserializer.template readEnum<SerialMessageType>()));
-			}
-
-			Serial.println(message.m_serializer.getBytesWritten());
 			message.m_serializer.write<SerialStringSizeType>(in_filename.c_str(), in_filename.length());
 
-			{
-				Serial.println("after write(c_str, length)");
-				Deserializer<c_serializerBufferSize> debugDeserializer(m_serializerBuffer);
-				debugDeserializer.template skip<SerialMessageSizeType>();
-				Serial.println(debugDeserializer.template read<uint16_t>(), HEX);
-				Serial.println(debugDeserializer.template read<uint16_t>(), HEX);
-				Serial.println(static_cast<std::underlying_type<SerialMessageType>::type>(debugDeserializer.template readEnum<SerialMessageType>()));
-			}
-
 			size_t bytesWritten = message.m_serializer.getBytesWritten();
-			Serial.println(bytesWritten);
 			return sendMessage(message) == bytesWritten;
 		}
 
