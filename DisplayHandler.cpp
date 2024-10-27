@@ -62,6 +62,7 @@ bool DisplayHandler::begin()
   #endif // HALVOE_LOG_SERIAL_ENABLED
 
   Wire2.begin();
+  Wire2.setClock(400000);
   delay(500);
 
   pinMode(TOUCH_RESET_PIN, OUTPUT);

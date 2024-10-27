@@ -3,7 +3,7 @@
 TrackballHandler::TrackballHandler()
 {}
 
-bool TrackballHandler::begin(TwoWire& io_wire, const uint8_t in_address = DEFAULT_I2C_ADDRESS)
+bool TrackballHandler::begin(TwoWire& io_wire, const uint8_t in_address)
 {
   m_trackball.begin(in_address, io_wire);
   m_trackball.setRGBW(0, 0, 0, 255);
@@ -19,7 +19,7 @@ bool TrackballHandler::update()
   {
     wasChanged = m_trackball.read();
 
-    #if HALVOE_LOG_SERIAL_ENABLED && HALVOE_LOG_LEVEL_SERIAL >= 8
+    #if HALVOE_LOG_SERIAL_ENABLED && HALVOE_LOG_LEVEL_SERIAL >= 9
     if (wasChanged)
     {
       Serial.print(" ");

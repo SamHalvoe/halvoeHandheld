@@ -30,7 +30,9 @@ void setup()
   displayHandler.begin();
 
   Wire.begin();
+  Wire.setClock(1000000);
   Wire1.begin();
+  Wire1.setClock(1000000);
 
   batteryHandler.begin();
   hapticDriver.setup();

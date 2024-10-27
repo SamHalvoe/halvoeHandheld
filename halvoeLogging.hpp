@@ -12,6 +12,12 @@
 
 namespace halvoeHandheld
 {
+  constexpr const char* getVersionString()
+  {
+    return "halvoeHandheld\n"
+           "build version: " HALVOE_BUILD_VERSION "\n"
+           "build timestamp: " HALVOE_BUILD_TIMESTAMP "\n";
+  }
+
   void setupSerial();
-  constexpr const char* getVersionString();
 }

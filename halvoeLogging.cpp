@@ -17,11 +17,4 @@ namespace halvoeHandheld
       Serial.println("(initialisationTime: " + String(initialisationTime) + " ms)");
     }
   }
-
-  constexpr const char* getVersionString()
-  {
-    return "halvoeHandheld\n"
-           "build version: " HALVOE_BUILD_VERSION "\n"
-           "build timestamp: " HALVOE_BUILD_TIMESTAMP "\n";
-  }
 }
