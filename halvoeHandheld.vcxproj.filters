@@ -16,25 +16,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="halvoeHandheld.ino" />
-    <ClCompile Include="DisplayHandler.h">
+    <ClCompile Include="DisplayHandler.hpp">
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="GFXcanvasExtmem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GFXcanvasExtmem.h">
+    <ClCompile Include="GFXcanvasExtmem.hpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="halvoeBoundingBox.h">
+    <ClCompile Include="halvoeBoundingBox.hpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="halvoeLabel.h">
+    <ClCompile Include="halvoeLabel.hpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="halvoeLogging.h">
+    <ClCompile Include="halvoeLogging.hpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="halvoeVersion.h">
+    <ClCompile Include="halvoeVersion.hpp">
       <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
