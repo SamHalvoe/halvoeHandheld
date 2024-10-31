@@ -1,5 +1,6 @@
 #include <SerialInterface.hpp>
-#include "halvoeLogging.hpp"
+#include "halvoeVersion.hpp"
+#include "halvoeLog.hpp"
 #include "BatteryHandler.hpp"
 #include "TrackballHandler.hpp"
 #include "HapticDriver.hpp"
@@ -21,10 +22,9 @@ OrientationHandler orientationHandler;
 
 void setup()
 {
-  #if HALVOE_LOG_SERIAL_ENABLED
-  halvoeHandheld::setupSerial();
-  Serial.print(halvoeHandheld::getVersionString());
-  #endif // HALVOE_LOG_SERIAL_ENABLED
+  Serial.begin(115200);
+  delay(2000);
+  LOG_INFO(halvoeHandheld::getVersionString());
 
   audioController.setup();
   displayHandler.begin();
@@ -50,20 +50,20 @@ void loop()
 
   if (trackballHandler1.clicked())
   {
-    Serial.println("trackballHandler1 clicked");
+    LOG_INFO("trackballHandler1 clicked");
 
     if (audioController.playFile("ddd4416.wav"))
     {
-      Serial.println("playFile() is ok");
+      LOG_INFO("playFile() is ok");
     }
   }
   else if (trackballHandler0.clicked())
   {
-    Serial.println("trackballHandler0 clicked");
+    LOG_INFO("trackballHandler0 clicked");
 
     if (audioController.endPlayback())
     {
-      Serial.println("endPlayback() is ok");
+      LOG_INFO("endPlayback() is ok");
     }
   }
 

@@ -31,7 +31,7 @@
     <ClCompile Include="halvoeLabel.hpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="halvoeLogging.hpp">
+    <ClCompile Include="halvoeLog.hpp">
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="halvoeVersion.hpp">
@@ -41,9 +41,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DisplayHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="halvoeLogging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="halvoeBoundingBox.cpp">

@@ -1,4 +1,5 @@
 #include "BatteryHandler.hpp"
+#include "halvoeLog.hpp"
 
 BatteryHandler::BatteryHandler(TwoWire& io_wire) : m_batteryHandler(io_wire)
 {}
@@ -15,9 +16,7 @@ bool BatteryHandler::begin()
   }
   else
   {
-    #if HALVOE_LOG_SERIAL_ENABLED
-    Serial.println("Initialization of battery handler failed!");
-    #endif // HALVOE_LOG_SERIAL_ENABLED
+    LOG_ERROR("Initialization of battery handler failed!");
   }
 
   return m_isReady;

@@ -2,8 +2,6 @@
 
 #include <SparkFunBQ27441.h>
 
-#include "halvoeLogging.hpp"
-
 class BatteryHandler
 {
   private:

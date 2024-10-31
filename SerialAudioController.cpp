@@ -1,4 +1,5 @@
 #include "SerialAudioController.hpp"
+#include "halvoeLog.hpp"
 
 namespace halvoe
 {
@@ -14,8 +15,7 @@ namespace halvoe
 
 	bool SerialAudioController::playFile(const String& in_filename)
 	{
-		Serial.println("playFile()");
-
+		LOG_TRACE("playFile()");
 		auto message = beginMessage(SerialMessageType::command);
 		message.m_serializer.writeEnum<SerialCommandCode>(SerialCommandCode::playFile);
 		message.m_serializer.write<SerialStringSizeType>(in_filename.c_str(), in_filename.length());
@@ -24,8 +24,7 @@ namespace halvoe
 
 	bool SerialAudioController::endPlayback()
 	{
-		Serial.println("endPlayback()");
-
+		LOG_TRACE("endPlayback()");
 		auto message = beginMessage(SerialMessageType::command);
 		message.m_serializer.writeEnum<SerialCommandCode>(SerialCommandCode::endPlayback);
 		return sendMessage(message);

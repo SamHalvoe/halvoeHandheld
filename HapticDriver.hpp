@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Adafruit_DRV2605.h>
-#include "halvoeLogging.hpp"
 
 class HapticDriver
 {

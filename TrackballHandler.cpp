@@ -1,4 +1,5 @@
 #include "TrackballHandler.hpp"
+#include "halvoeLog.hpp"
 
 TrackballHandler::TrackballHandler()
 {}
@@ -19,18 +20,12 @@ bool TrackballHandler::update()
   {
     wasChanged = m_trackball.read();
 
-    #if HALVOE_LOG_SERIAL_ENABLED && HALVOE_LOG_LEVEL_SERIAL >= 9
     if (wasChanged)
     {
-      Serial.print(" ");
-      Serial.println(m_trackball.up());
-      Serial.print(m_trackball.left());
-      Serial.print("+");
-      Serial.println(m_trackball.right());
-      Serial.print(" ");
-      Serial.println(m_trackball.down());
+      LOG_TRACE(" ", m_trackball.up(), "\n",
+                m_trackball.left(), "+", m_trackball.right(), "\n",
+                " ", m_trackball.down(), "\n");
     }
-    #endif // HALVOE_LOG_SERIAL_ENABLED
 
     m_timeSinceUpdate = 0;
   }

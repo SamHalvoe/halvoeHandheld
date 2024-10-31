@@ -5,8 +5,6 @@
 #include <Adafruit_GFX.h>
 #include <ILI9341_T4.h>
 #include <FT6236.h>
-
-#include "halvoeLogging.hpp"
 #include "halvoeBoundingBox.hpp"
 
 class DisplayHandler

@@ -1,13 +1,12 @@
 #pragma once
 
 #include <pimoroniTrackball.h>
-#include "halvoeLogging.hpp"
 
 class TrackballHandler
 {
   public:
     static const uint8_t DEFAULT_I2C_ADDRESS = 0x0A;
-    static const uint8_t UPDATE_INTERVAL = 50; // milli sec
+    static const uint8_t UPDATE_INTERVAL = 25; // ms
 
   private:
     elapsedMillis m_timeSinceUpdate;

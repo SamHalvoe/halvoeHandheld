@@ -1,4 +1,5 @@
 #include "HapticDriver.hpp"
+#include "halvoeLog.hpp"
 
 HapticDriver::HapticDriver()
 {}
@@ -23,10 +24,7 @@ bool HapticDriver::setup()
   }
   else
   {
-    #if HALVOE_LOG_SERIAL_ENABLED
-    Serial.println("Initialization of haptic driver failed!");
-    #endif // HALVOE_LOG_SERIAL_ENABLED
-
+    LOG_ERROR("Initialization of haptic driver failed!");
     return false;
   }
 

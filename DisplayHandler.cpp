@@ -1,4 +1,5 @@
 #include "DisplayHandler.hpp"
+#include "halvoeLog.hpp"
 
 void DisplayHandler::setupColorPalette()
 {
@@ -19,26 +20,14 @@ DisplayHandler::DisplayHandler(uint16_t* io_frameBuffer) :
 
 bool DisplayHandler::begin()
 {
-  #if HALVOE_LOG_SERIAL_ENABLED
-  Serial.println("---- Display Setup Begin ----");
-  #endif // HALVOE_LOG_SERIAL_ENABLED
+  LOG_INFO("---- Display Setup Begin ----");
 
   analogWrite(TFT_BACKLIGHT_PIN, 255);
-
-  delay(3000);
-
-  #if HALVOE_LOG_SERIAL_ENABLED
-  m_displayDevice.output(&Serial); // output debug infos to serial port.     
-  #endif // HALVOE_LOG_SERIAL_ENABLED
+  delay(3000); // Is this delay needed?!?
+  m_displayDevice.output(&Serial); // output debug infos to serial port.
 
   bool isSuccessfulDisplay = m_displayDevice.begin(TFT_SPI_FREQ);
-
-  if (not isSuccessfulDisplay)
-  {
-    #if HALVOE_LOG_SERIAL_ENABLED
-    Serial.println("ERROR: Could not initialise displayDevice!");
-    #endif // HALVOE_LOG_SERIAL_ENABLED
-  }
+  if (not isSuccessfulDisplay) { LOG_ERROR("Could not initialise displayDevice!"); }
       
   m_displayDevice.setRotation(1);                 // landscape mode 240x320
   m_displayDevice.setFramebuffer(m_frameBuffer);  // set the internal framebuffer (enables double buffering)
@@ -57,9 +46,7 @@ bool DisplayHandler::begin()
   m_frameCanvas.fillScreen(ILI9341_T4_COLOR_GREEN);
   m_displayDevice.update(m_frameCanvas.getBuffer());
 
-  #if HALVOE_LOG_SERIAL_ENABLED
-  Serial.println("-- Touch Device Setup Begin --");
-  #endif // HALVOE_LOG_SERIAL_ENABLED
+  LOG_INFO("-- Touch Device Setup Begin --");
 
   Wire2.begin();
   Wire2.setClock(400000);
@@ -72,20 +59,11 @@ bool DisplayHandler::begin()
   delay(2000);
 
   bool isSuccessfulTouch = m_touchDevice.begin(TOUCH_THRESHHOLD);
+  if (not isSuccessfulTouch) { LOG_ERROR("ERROR: Could not initialise touchDevice!"); }
 
-  if (not isSuccessfulTouch)
-  {
-    #if HALVOE_LOG_SERIAL_ENABLED
-    Serial.println("ERROR: Could not initialise touchDevice!");
-    #endif // HALVOE_LOG_SERIAL_ENABLED
-  }
-
-  m_touchDevice.debug();
-
-  #if HALVOE_LOG_SERIAL_ENABLED
-  Serial.println("-- Touch Device Setup End --");
-  Serial.println("---- Display Setup End ----");
-  #endif // HALVOE_LOG_SERIAL_ENABLED
+  m_touchDevice.printDebugInfo(Serial);
+  LOG_INFO("-- Touch Device Setup End --");
+  LOG_INFO("---- Display Setup End ----");
 
   return isSuccessfulDisplay && isSuccessfulTouch;
 }
@@ -129,32 +107,12 @@ void DisplayHandler::updateTouch()
 
     if (m_touchDevice.touches > 0)
     {
-      #if HALVOE_LOG_SERIAL_ENABLED && HALVOE_LOG_LEVEL_SERIAL >= 9
-      Serial.print(m_touchDevice.touches);
-      Serial.print(" | ");
-      Serial.print(m_touchDevice.touchID[0]);
-      Serial.print(" ");
-      Serial.print(m_touchDevice.touchID[1]);
-      Serial.print(" ");
-      Serial.print(m_touchDevice.touchX[0]);
-      Serial.print(" ");
-      Serial.print(m_touchDevice.touchX[1]);
-      Serial.print(" ");
-      Serial.print(m_touchDevice.touchY[0]);
-      Serial.print(" ");
-      Serial.print(m_touchDevice.touchY[1]);
-      Serial.println();
-      Serial.print("p1 ");
-      Serial.print(m_touchPoints[0].pm_x);
-      Serial.print(" ");
-      Serial.print(m_touchPoints[0].pm_y);
-      Serial.println();
-      Serial.print("p2 ");
-      Serial.print(m_touchPoints[1].pm_x);
-      Serial.print(" ");
-      Serial.print(m_touchPoints[1].pm_y);
-      Serial.println();
-      #endif // HALVOE_LOG_SERIAL_ENABLED
+      LOG_TRACE(m_touchDevice.touches, " | ",
+                m_touchDevice.touchID[0], " ", m_touchDevice.touchID[1], " ",
+                m_touchDevice.touchX[0], " ", m_touchDevice.touchX[1], " ",
+                m_touchDevice.touchY[0], " ", m_touchDevice.touchY[1], "\n",
+                "p1 ", m_touchPoints[0].pm_x, " ", m_touchPoints[0].pm_y, "\n",
+                "p2 ", m_touchPoints[1].pm_x, " ", m_touchPoints[1].pm_y, "\n");
     }
 
     timeSinceTouchUpdated = 0;

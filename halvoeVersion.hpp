@@ -9,4 +9,11 @@ namespace halvoeHandheld
 {
   constexpr const char* buildVersion = HALVOE_BUILD_VERSION;
   constexpr const char* buildTimestamp = HALVOE_BUILD_TIMESTAMP;
+
+  constexpr const char* getVersionString()
+  {
+    return "halvoeHandheld\n"
+           "build version: " HALVOE_BUILD_VERSION "\n"
+           "build timestamp: " HALVOE_BUILD_TIMESTAMP "\n";
+  }
 }

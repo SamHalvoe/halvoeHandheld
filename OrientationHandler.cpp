@@ -1,4 +1,5 @@
 #include "OrientationHandler.hpp"
+#include "halvoeLog.hpp"
 
 OrientationHandler::OrientationHandler()
 {
@@ -11,11 +12,10 @@ bool OrientationHandler::setup()
 
   if (m_isSensorReady)
   {
-    Serial.println("begin_I2C = true");
     if (not m_sensor.enableReport(SH2_GAME_ROTATION_VECTOR))
     {
       m_isSensorReady = false;
-      Serial.println("enableReport = false");
+      LOG_ERROR("enableReport(SH2_GAME_ROTATION_VECTOR) failed!");
     }
   }
 
@@ -31,16 +31,10 @@ void OrientationHandler::update()
   switch (m_sensorValue.sensorId)
   {
     case SH2_GAME_ROTATION_VECTOR:
-      #if HALVOE_LOG_SERIAL_ENABLED && HALVOE_LOG_LEVEL_SERIAL > 8
-      Serial.print("Game Rotation Vector - r: ");
-      Serial.print(m_sensorValue.un.gameRotationVector.real);
-      Serial.print(" i: ");
-      Serial.print(m_sensorValue.un.gameRotationVector.i);
-      Serial.print(" j: ");
-      Serial.print(m_sensorValue.un.gameRotationVector.j);
-      Serial.print(" k: ");
-      Serial.println(m_sensorValue.un.gameRotationVector.k);
-      #endif // HALVOE_LOG_SERIAL_ENABLED
+      LOG_DEBUG("Game Rotation Vector - r: ", m_sensorValue.un.gameRotationVector.real,
+                " i: ", m_sensorValue.un.gameRotationVector.i,
+                " j: ", m_sensorValue.un.gameRotationVector.j,
+                " k: ", m_sensorValue.un.gameRotationVector.k, "\n");
     break;
   }
 }
