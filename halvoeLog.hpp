@@ -33,6 +33,7 @@ namespace halvoeHandheld
       bool isSetupLibraries() const;
       StreamUtils::LoggingStream& getLogStreamLibraries();
       void flush();
+      void flushNow();
       void flushLibraries();
   };
 }

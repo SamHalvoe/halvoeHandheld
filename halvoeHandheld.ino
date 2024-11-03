@@ -33,7 +33,7 @@ void setup()
   sdHandler.setup();
   logFileManager.setup();
   LOG_INFO(halvoeHandheld::getVersionString());
-  if (CrashReport) { LOG_ERROR(CrashReport); logFileManager.flush(); }
+  if (CrashReport) { LOG_ERROR(CrashReport); logFileManager.flushNow(); }
 
   audioController.setup();
   displayHandler.begin();

@@ -67,6 +67,12 @@ namespace halvoeHandheld
     }
   }
 
+  void LogFileManager::flushNow()
+  {
+    LOG_FILE_FLUSH();
+    LOG_INFO("LOG_FILE_FLUSHed");
+  }
+
   void LogFileManager::flushLibraries()
   {
     if (m_timeSinceFlushLibraries >= m_logFileFlushIntervalLibraries)
