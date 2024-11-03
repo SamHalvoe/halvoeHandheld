@@ -9,30 +9,30 @@
 #include <StreamUtils.hpp>
 #include <elapsedMillis.h>
 
-namespace halvoeAudioBoard
+namespace halvoeHandheld
 {
   class LogFileManager
   {
-  private:
-    const char* m_logFilePath;
-    const unsigned long m_logFileFlushInterval; // in ms
-    elapsedMillis m_timeSinceFlush;
-    bool m_isSetup = false;
+    private:
+      const char* m_logFilePath;
+      const unsigned long m_logFileFlushInterval; // in ms
+      elapsedMillis m_timeSinceFlush;
+      bool m_isSetup = false;
 
-    const char* m_logFilePathLibraries;
-    const unsigned long m_logFileFlushIntervalLibraries; // in ms
-    elapsedMillis m_timeSinceFlushLibraries;
-    File m_logFileLibraries;
-    StreamUtils::LoggingStream m_logStreamLibraries;
-    bool m_isSetupLibraries = false;
+      const char* m_logFilePathLibraries;
+      const unsigned long m_logFileFlushIntervalLibraries; // in ms
+      elapsedMillis m_timeSinceFlushLibraries;
+      File m_logFileLibraries;
+      StreamUtils::LoggingStream m_logStreamLibraries;
+      bool m_isSetupLibraries = false;
 
-  public:
-    LogFileManager();
-    bool setup();
-    bool isSetup() const;
-    bool isSetupLibraries() const;
-    StreamUtils::LoggingStream& getLogStreamLibraries();
-    void flush();
-    void flushLibraries();
+    public:
+      LogFileManager();
+      bool setup();
+      bool isSetup() const;
+      bool isSetupLibraries() const;
+      StreamUtils::LoggingStream& getLogStreamLibraries();
+      void flush();
+      void flushLibraries();
   };
 }

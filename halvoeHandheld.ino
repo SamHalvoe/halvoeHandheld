@@ -13,6 +13,7 @@
 using namespace halvoeHandheld;
 
 SDHandler sdHandler;
+LogFileManager logFileManager;
 
 DMAMEM uint16_t frameBuffer[DisplayHandler::TFT_PIXEL_COUNT];
 DisplayHandler displayHandler(frameBuffer);
@@ -30,8 +31,9 @@ void setup()
   Serial.begin(115200);
   delay(2000);
   sdHandler.setup();
+  logFileManager.setup();
   LOG_INFO(halvoeHandheld::getVersionString());
-  if (CrashReport) { LOG_ERROR(CrashReport); }
+  if (CrashReport) { LOG_ERROR(CrashReport); logFileManager.flush(); }
 
   audioController.setup();
   displayHandler.begin();

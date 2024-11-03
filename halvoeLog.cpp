@@ -1,6 +1,6 @@
 #include "halvoeLog.hpp"
 
-namespace halvoeAudioBoard
+namespace halvoeHandheld
 {
   LogFileManager::LogFileManager() :
     m_logFilePath("/halvoeHandheld.log"),
