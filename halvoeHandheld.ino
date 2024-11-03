@@ -40,6 +40,8 @@ void setup()
 
   trackballHandler0.begin(Wire);
   trackballHandler1.begin(Wire1);
+
+  LOG_INFO("Leave setup...");
 }
 
 void loop()
