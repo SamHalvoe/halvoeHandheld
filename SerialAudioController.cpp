@@ -1,7 +1,9 @@
 #include "SerialAudioController.hpp"
 #include "halvoeLog.hpp"
 
-namespace halvoe
+using namespace halvoe;
+
+namespace halvoeHandheld
 {
 	SerialAudioController::SerialAudioController(HardwareSerial& in_serial) :
 		SerialInterface<c_serializerBufferSize, c_deserializerBufferSize>(in_serial)

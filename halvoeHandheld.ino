@@ -1,6 +1,7 @@
 #include <SerialInterface.hpp>
 #include "halvoeVersion.hpp"
 #include "halvoeLog.hpp"
+#include "halvoeSDHandler.hpp"
 #include "BatteryHandler.hpp"
 #include "TrackballHandler.hpp"
 #include "HapticDriver.hpp"
@@ -9,22 +10,28 @@
 #include "DisplayHandler.hpp"
 #include "halvoeLabel.hpp"
 
-DMAMEM uint16_t frameBuffer[DisplayHandler::TFT_PIXEL_COUNT];
+using namespace halvoeHandheld;
 
+SDHandler sdHandler;
+
+DMAMEM uint16_t frameBuffer[DisplayHandler::TFT_PIXEL_COUNT];
 DisplayHandler displayHandler(frameBuffer);
 Label label(&displayHandler.getFrameCanvas(), "Test", 64, 64);
+
 TrackballHandler trackballHandler0;
 TrackballHandler trackballHandler1;
 BatteryHandler batteryHandler(Wire1);
-halvoe::SerialAudioController audioController(Serial3);
 HapticDriver hapticDriver;
 OrientationHandler orientationHandler;
+SerialAudioController audioController(Serial3);
 
 void setup()
 {
   Serial.begin(115200);
   delay(2000);
+  sdHandler.setup();
   LOG_INFO(halvoeHandheld::getVersionString());
+  if (CrashReport) { LOG_ERROR(CrashReport); }
 
   audioController.setup();
   displayHandler.begin();
