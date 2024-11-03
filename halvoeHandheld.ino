@@ -36,7 +36,7 @@ void setup()
   if (CrashReport) { LOG_ERROR(CrashReport); logFileManager.flushNow(); }
 
   audioController.setup();
-  displayHandler.begin();
+  displayHandler.begin(logFileManager.getLogStreamLibraries());
 
   Wire.begin();
   Wire.setClock(1000000);
@@ -86,4 +86,7 @@ void loop()
   displayHandler.updateTouch();
   displayHandler.updateScreen();
   orientationHandler.update();
+
+  logFileManager.flush();
+  logFileManager.flushLibraries();
 }

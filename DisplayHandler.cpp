@@ -18,13 +18,13 @@ DisplayHandler::DisplayHandler(uint16_t* io_frameBuffer) :
   setupColorPalette();
 }
 
-bool DisplayHandler::begin()
+bool DisplayHandler::begin(Stream& out_loggingStreamLibraries)
 {
   LOG_INFO("---- Display Setup Begin ----");
 
   analogWrite(TFT_BACKLIGHT_PIN, 255);
   delay(3000); // Is this delay needed?!?
-  m_displayDevice.output(&Serial); // output debug infos to serial port.
+  m_displayDevice.output(&out_loggingStreamLibraries); // output debug infos to library logging stream.
 
   bool isSuccessfulDisplay = m_displayDevice.begin(TFT_SPI_FREQ);
   if (not isSuccessfulDisplay) { LOG_ERROR("Could not initialise displayDevice!"); }
@@ -61,7 +61,7 @@ bool DisplayHandler::begin()
   bool isSuccessfulTouch = m_touchDevice.begin(TOUCH_THRESHHOLD);
   if (not isSuccessfulTouch) { LOG_ERROR("ERROR: Could not initialise touchDevice!"); }
 
-  m_touchDevice.printDebugInfo(Serial);
+  m_touchDevice.printDebugInfo(out_loggingStreamLibraries);
   LOG_INFO("-- Touch Device Setup End --");
   LOG_INFO("---- Display Setup End ----");
 

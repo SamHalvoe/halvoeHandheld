@@ -47,7 +47,7 @@ class DisplayHandler
 
   public:
     DisplayHandler(uint16_t* io_frameBuffer);
-    bool begin();
+    bool begin(Stream& out_loggingStreamLibraries);
     void updateScreen();
     void updateTouch();
     void printStatus();
