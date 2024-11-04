@@ -35,5 +35,6 @@ namespace halvoeHandheld
       void flush();
       void flushNow();
       void flushLibraries();
+      bool handleCrashReport();
   };
 }

@@ -32,8 +32,8 @@ void setup()
   delay(2000);
   sdHandler.setup();
   logFileManager.setup();
-  LOG_INFO(halvoeHandheld::getVersionString());
-  if (CrashReport) { LOG_ERROR(CrashReport); logFileManager.flushNow(); }
+  LOG_INFO(getVersionString());
+  logFileManager.handleCrashReport();
 
   audioController.setup();
   displayHandler.begin(logFileManager.getLogStreamLibraries());

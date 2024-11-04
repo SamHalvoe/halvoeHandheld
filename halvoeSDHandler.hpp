@@ -11,7 +11,7 @@ namespace halvoeHandheld
 
     public:
       SDHandler();
-      bool setup();
+      bool setup(uint8_t in_maxRetryCount = 3);
       bool isSetup() const;
   };
 }

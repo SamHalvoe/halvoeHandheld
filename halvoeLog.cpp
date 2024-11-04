@@ -78,8 +78,23 @@ namespace halvoeHandheld
     if (m_timeSinceFlushLibraries >= m_logFileFlushIntervalLibraries)
     {
       m_logStreamLibraries.flush();
-      LOG_INFO("Audio library log file flushed");
+      LOG_INFO("Libraries log file flushed");
       m_timeSinceFlushLibraries = 0;
     }
+  }
+
+  bool LogFileManager::handleCrashReport()
+  {
+    if (CrashReport)
+    {
+      StreamUtils::StringPrint crashReport;
+      CrashReport.printTo(crashReport);
+      LOG_ERROR(crashReport.str());
+      flushNow();
+
+      return true;
+    }
+
+    return false;
   }
 }
