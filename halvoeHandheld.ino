@@ -15,9 +15,12 @@ using namespace halvoeHandheld;
 SDHandler sdHandler;
 LogFileManager logFileManager;
 
+DMAMEM ILI9341_T4::DiffBuffStatic<8192> diffBuffer1;
+DMAMEM ILI9341_T4::DiffBuffStatic<8192> diffBuffer2;
+DMAMEM uint16_t internalFrameBuffer[DisplayHandler::TFT_PIXEL_COUNT];
 DMAMEM uint16_t frameBuffer[DisplayHandler::TFT_PIXEL_COUNT];
-DisplayHandler displayHandler(frameBuffer);
-Label label(&displayHandler.getFrameCanvas(), "Test", 64, 64);
+DisplayHandler displayHandler(internalFrameBuffer, frameBuffer, &diffBuffer1, &diffBuffer2);
+Label label(displayHandler.getFrame(), "Test", 64, 64);
 
 TrackballHandler trackballHandler0;
 TrackballHandler trackballHandler1;
@@ -78,9 +81,9 @@ void loop()
     }
   }
 
-  displayHandler.getFrameCanvas().fillScreen(ILI9341_T4_COLOR_BLACK);
-  displayHandler.getFrameCanvas().drawRect(0, 0, displayHandler.getFrameCanvas().width(), displayHandler.getFrameCanvas().height(), ILI9341_T4_COLOR_WHITE);
-  if (batteryHandler.isReady()) { label.setText(String(batteryHandler.getStateOfCharge()) + " %"); }
+  displayHandler.getFrame().fillScreen(tgx::RGB565_Black);
+  displayHandler.getFrame().drawRect({0, displayHandler.getFrame().width() - 1, 0, displayHandler.getFrame().height() - 1}, tgx::RGB565_White);
+  //if (batteryHandler.isReady()) { label.setText(String(batteryHandler.getStateOfCharge()) + " %"); }
   label.draw();
   
   displayHandler.updateTouch();

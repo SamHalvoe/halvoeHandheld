@@ -2,10 +2,9 @@
 
 #include <array>
 
-#include <Adafruit_GFX.h>
+#include <tgx.h>
 #include <ILI9341_T4.h>
 #include <FT6236.h>
-#include "halvoeBoundingBox.hpp"
 
 class DisplayHandler
 {
@@ -30,27 +29,30 @@ class DisplayHandler
 
   private:
     ILI9341_T4::ILI9341Driver m_displayDevice;
-    ILI9341_T4::DiffBuffStatic<8192> m_diffBuffer1;
-    ILI9341_T4::DiffBuffStatic<8192> m_diffBuffer2;
-    GFXcanvas16 m_frameCanvas;
+    ILI9341_T4::DiffBuffStatic<8192>* m_diffBuffer1;
+    ILI9341_T4::DiffBuffStatic<8192>* m_diffBuffer2;
+    uint16_t* m_internalFrameBuffer = nullptr;
     uint16_t* m_frameBuffer = nullptr;
-    std::array<uint16_t, 256> m_colorPalette;
+    tgx::Image<tgx::RGB565> m_frame;
+    std::array<tgx::RGB565, 256> m_colorPalette;
 
     uint8_t touchUpdateInterval = 50;
     elapsedMillis timeSinceTouchUpdated;
     FT6236 m_touchDevice;
-    std::array<TouchPoint, 2> m_previousTouchPoints;
-    std::array<TouchPoint, 2> m_touchPoints;
+    std::array<TouchPoint, 2> m_previousTouchPoints; // use std::pair
+    std::array<TouchPoint, 2> m_touchPoints; // use std::pair
 
   private:
     void setupColorPalette();
 
   public:
-    DisplayHandler(uint16_t* io_frameBuffer);
+    DisplayHandler(uint16_t* io_internalFrameBuffer, uint16_t* io_frameBuffer,
+                   ILI9341_T4::DiffBuffStatic<8192>* io_diffBuffer1,
+                   ILI9341_T4::DiffBuffStatic<8192>* io_diffBuffer2);
     bool begin(Stream& out_loggingStreamLibraries);
     void updateScreen();
     void updateTouch();
     void printStatus();
-    const GFXcanvas16& getFrameCanvas() const;
-    GFXcanvas16& getFrameCanvas();
+    const tgx::Image<tgx::RGB565>& getFrame() const;
+    tgx::Image<tgx::RGB565>& getFrame();
 };
