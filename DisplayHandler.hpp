@@ -36,11 +36,12 @@ class DisplayHandler
     tgx::Image<tgx::RGB565> m_frame;
     std::array<tgx::RGB565, 256> m_colorPalette;
 
-    uint8_t touchUpdateInterval = 50;
+    uint8_t touchUpdateInterval = 25;
     elapsedMillis timeSinceTouchUpdated;
     FT6236 m_touchDevice;
     std::array<TouchPoint, 2> m_previousTouchPoints; // use std::pair
     std::array<TouchPoint, 2> m_touchPoints; // use std::pair
+    std::pair<tgx::iVec2, tgx::iVec2> m_touchPoints01;
 
   private:
     void setupColorPalette();
@@ -53,6 +54,8 @@ class DisplayHandler
     void updateScreen();
     void updateTouch();
     void printStatus();
+    const tgx::iVec2& getTouchPoint0() const;
+    const tgx::iVec2& getTouchPoint1() const;
     const tgx::Image<tgx::RGB565>& getFrame() const;
     tgx::Image<tgx::RGB565>& getFrame();
 };

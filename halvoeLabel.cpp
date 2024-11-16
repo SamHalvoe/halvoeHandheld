@@ -4,18 +4,27 @@ Label::Label(tgx::Image<tgx::RGB565>& io_target, const String& in_text,
              int16_t in_x, int16_t in_y, uint8_t in_textSize,
              tgx::RGB565 in_foregroundColor, tgx::RGB565 in_backgroundColor, tgx::RGB565 in_outlineColor) :
   m_target(io_target), m_text(in_text), m_textSize(in_textSize),
-  m_boundingBox(in_x, in_y, in_x, in_y),
+  m_topLeftPoint(in_x, in_y),
   m_foregroundColor(in_foregroundColor),
   m_backgroundColor(in_backgroundColor),
   m_outlineColor(in_outlineColor)
 {
-  m_boundingBox = m_target.measureText(m_text.c_str(), { m_boundingBox.minX, m_boundingBox.minY }, font_SourceCodePro_AA4_lite_14);
+  updateBoundingBox();
+}
+
+void Label::updateBoundingBox()
+{
+  m_boundingBox = m_target.measureText(m_text.c_str(), m_topLeftPoint, font_SourceCodePro_AA4_lite_14, tgx::Anchor::CENTER, false, false);
+  m_boundingBox.minX = m_boundingBox.minX - 2;
+  m_boundingBox.maxX = m_boundingBox.maxX + 2;
+  m_boundingBox.minY = m_boundingBox.minY - 3;
+  m_boundingBox.maxY = m_boundingBox.maxY + 3;
 }
 
 void Label::setText(const String& in_text)
 {
   m_text = in_text;
-  m_boundingBox = m_target.measureText(m_text.c_str(), { m_boundingBox.minX, m_boundingBox.minY }, font_SourceCodePro_AA4_lite_14);
+  updateBoundingBox();
 }
 
 const String& Label::getText() const
@@ -47,5 +56,5 @@ void Label::draw()
 {
   m_target.fillRect(m_boundingBox, m_backgroundColor);
   m_target.drawRect(m_boundingBox, m_outlineColor);
-  m_target.drawText(m_text.c_str(), { m_boundingBox.minX, m_boundingBox.minY }, font_SourceCodePro_AA4_lite_14, m_foregroundColor);
+  m_target.drawTextEx(m_text.c_str(), m_topLeftPoint, font_SourceCodePro_AA4_lite_14, tgx::Anchor::CENTER, false, false, m_foregroundColor);
 }

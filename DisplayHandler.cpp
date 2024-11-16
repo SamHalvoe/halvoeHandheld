@@ -71,12 +71,12 @@ void DisplayHandler::updateScreen()
 {
   if (m_touchPoints[0].pm_x != FT6236_INVALID_STATE)
   {
-    m_frame.drawCircle({m_touchPoints[0].pm_y, 240 - m_touchPoints[0].pm_x}, 15, tgx::RGB565_Red);
+    m_frame.drawCircle({m_touchPoints[0].pm_y, TFT_PIXEL_WIDTH - m_touchPoints[0].pm_x}, 15, tgx::RGB565_Red);
   }
 
   if (m_touchPoints[1].pm_x != FT6236_INVALID_STATE)
   {
-    m_frame.drawCircle({m_touchPoints[1].pm_y, 240 - m_touchPoints[1].pm_x}, 15, tgx::RGB565_Green);
+    m_frame.drawCircle({m_touchPoints[1].pm_y, TFT_PIXEL_WIDTH - m_touchPoints[1].pm_x}, 15, tgx::RGB565_Green);
   }
 
   m_displayDevice.overlayFPS(m_frameBuffer);
@@ -116,11 +116,26 @@ void DisplayHandler::updateTouch()
 
     timeSinceTouchUpdated = 0;
   }
+
+  m_touchPoints01.first.x = m_touchPoints[0].pm_y;
+  m_touchPoints01.first.y = TFT_PIXEL_WIDTH - m_touchPoints[0].pm_x;
+  m_touchPoints01.second.x = m_touchPoints[1].pm_y;
+  m_touchPoints01.second.y = TFT_PIXEL_WIDTH - m_touchPoints[1].pm_x;
 }
 
 void DisplayHandler::printStatus()
 {
   m_displayDevice.printStatus();
+}
+
+const tgx::iVec2& DisplayHandler::getTouchPoint0() const
+{
+  return m_touchPoints01.first;
+}
+
+const tgx::iVec2& DisplayHandler::getTouchPoint1() const
+{
+  return m_touchPoints01.second;
 }
 
 const tgx::Image<tgx::RGB565>& DisplayHandler::getFrame() const

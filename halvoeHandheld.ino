@@ -84,6 +84,7 @@ void loop()
   displayHandler.getFrame().fillScreen(tgx::RGB565_Black);
   displayHandler.getFrame().drawRect({0, displayHandler.getFrame().width() - 1, 0, displayHandler.getFrame().height() - 1}, tgx::RGB565_White);
   //if (batteryHandler.isReady()) { label.setText(String(batteryHandler.getStateOfCharge()) + " %"); }
+  if (label.getBoundingBox().contains(displayHandler.getTouchPoint0())) { label.setOutlineColor(tgx::RGB565_Red); } else { label.setOutlineColor(tgx::RGB565_White); }
   label.draw();
   
   displayHandler.updateTouch();
