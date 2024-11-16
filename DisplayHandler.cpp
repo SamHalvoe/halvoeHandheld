@@ -71,12 +71,16 @@ void DisplayHandler::updateScreen()
 {
   if (m_touchPoints[0].pm_x != FT6236_INVALID_STATE)
   {
-    m_frame.drawCircle({m_touchPoints[0].pm_y, TFT_PIXEL_WIDTH - m_touchPoints[0].pm_x}, 15, tgx::RGB565_Red);
+    m_frame.drawCircleAA(m_touchPoints01.first, 15, tgx::RGB565_Red);
+    m_frame.drawFastHLine({ m_touchPoints01.first.x - 2, m_touchPoints01.first.y }, 5, tgx::RGB565_Red);
+    m_frame.drawFastVLine({ m_touchPoints01.first.x, m_touchPoints01.first.y - 2 }, 5, tgx::RGB565_Red);
   }
 
   if (m_touchPoints[1].pm_x != FT6236_INVALID_STATE)
   {
-    m_frame.drawCircle({m_touchPoints[1].pm_y, TFT_PIXEL_WIDTH - m_touchPoints[1].pm_x}, 15, tgx::RGB565_Green);
+    m_frame.drawCircleAA(m_touchPoints01.second, 15, tgx::RGB565_Green);
+    m_frame.drawFastHLine({ m_touchPoints01.second.x - 2, m_touchPoints01.second.y }, 5, tgx::RGB565_Green);
+    m_frame.drawFastVLine({ m_touchPoints01.second.x, m_touchPoints01.second.y - 2 }, 5, tgx::RGB565_Green);
   }
 
   m_displayDevice.overlayFPS(m_frameBuffer);

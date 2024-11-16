@@ -62,7 +62,7 @@ namespace halvoeHandheld
     if (m_timeSinceFlush >= m_logFileFlushInterval)
     {
       LOG_FILE_FLUSH();
-      LOG_INFO("LOG_FILE_FLUSHed");
+      LOG_DEBUG("LOG_FILE_FLUSHed");
       m_timeSinceFlush = 0;
     }
   }
@@ -70,7 +70,7 @@ namespace halvoeHandheld
   void LogFileManager::flushNow()
   {
     LOG_FILE_FLUSH();
-    LOG_INFO("LOG_FILE_FLUSHed");
+    LOG_DEBUG("LOG_FILE_FLUSHed");
   }
 
   void LogFileManager::flushLibraries()
@@ -78,7 +78,7 @@ namespace halvoeHandheld
     if (m_timeSinceFlushLibraries >= m_logFileFlushIntervalLibraries)
     {
       m_logStreamLibraries.flush();
-      LOG_INFO("Libraries log file flushed");
+      LOG_DEBUG("Libraries log file flushed");
       m_timeSinceFlushLibraries = 0;
     }
   }
