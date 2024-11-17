@@ -39,9 +39,8 @@ class DisplayHandler
     uint8_t touchUpdateInterval = 25;
     elapsedMillis timeSinceTouchUpdated;
     FT6236 m_touchDevice;
-    std::array<TouchPoint, 2> m_previousTouchPoints; // use std::pair
-    std::array<TouchPoint, 2> m_touchPoints; // use std::pair
-    std::pair<tgx::iVec2, tgx::iVec2> m_touchPoints01;
+    std::pair<tgx::iVec2, tgx::iVec2> m_touchPoints;
+    std::pair<tgx::iBox2, tgx::iBox2> m_screenHalf;
 
   private:
     void setupColorPalette();

@@ -82,6 +82,7 @@
     </ClCompile>
     <ClCompile Include="halvoeLog.cpp" />
     <ClCompile Include="halvoeSDHandler.cpp" />
+    <ClCompile Include="halvoeUtility.cpp" />
     <ClCompile Include="HapticDriver.cpp" />
     <ClCompile Include="OrientationHandler.cpp" />
     <ClCompile Include="SerialAudioController.cpp" />
@@ -107,6 +108,7 @@
     </ClCompile>
     <ClInclude Include="BatteryHandler.hpp" />
     <ClInclude Include="halvoeSDHandler.hpp" />
+    <ClInclude Include="halvoeUtility.hpp" />
     <ClInclude Include="HapticDriver.hpp" />
     <ClInclude Include="OrientationHandler.hpp" />
     <ClInclude Include="SerialAudioController.hpp" />

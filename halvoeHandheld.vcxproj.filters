@@ -55,6 +55,9 @@
     <ClCompile Include="halvoeLog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="halvoeUtility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.halvoeHandheld.vsarduino.h">
@@ -76,6 +79,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="halvoeSDHandler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="halvoeUtility.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

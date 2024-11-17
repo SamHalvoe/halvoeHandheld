@@ -18,6 +18,10 @@ DisplayHandler::DisplayHandler(uint16_t* io_internalFrameBuffer, uint16_t* io_fr
   m_frame(io_frameBuffer, TFT_PIXEL_HEIGHT, TFT_PIXEL_WIDTH),
   m_touchDevice(Wire2)
 {
+  m_touchPoints.first = { -1, -1 };
+  m_touchPoints.second = { -1, -1 };
+  m_screenHalf.first = { 0, (TFT_PIXEL_HEIGHT / 2) - 1, 0, TFT_PIXEL_WIDTH - 1 };
+  m_screenHalf.second = { TFT_PIXEL_HEIGHT / 2, TFT_PIXEL_HEIGHT - 1, 0, TFT_PIXEL_WIDTH -1 };
   setupColorPalette();
 }
 
@@ -69,18 +73,21 @@ bool DisplayHandler::begin(Stream& out_loggingStreamLibraries)
 
 void DisplayHandler::updateScreen()
 {
-  if (m_touchPoints[0].pm_x != FT6236_INVALID_STATE)
+  m_frame.drawRect(m_screenHalf.first, tgx::RGB565_Red);
+  m_frame.drawRect(m_screenHalf.second, tgx::RGB565_Green);
+
+  if (m_touchPoints.first.x > 0)
   {
-    m_frame.drawCircleAA(m_touchPoints01.first, 15, tgx::RGB565_Red);
-    m_frame.drawFastHLine({ m_touchPoints01.first.x - 2, m_touchPoints01.first.y }, 5, tgx::RGB565_Red);
-    m_frame.drawFastVLine({ m_touchPoints01.first.x, m_touchPoints01.first.y - 2 }, 5, tgx::RGB565_Red);
+    m_frame.drawCircleAA(m_touchPoints.first, 15, tgx::RGB565_Red);
+    m_frame.drawFastHLine({ m_touchPoints.first.x - 2, m_touchPoints.first.y }, 5, tgx::RGB565_Red);
+    m_frame.drawFastVLine({ m_touchPoints.first.x, m_touchPoints.first.y - 2 }, 5, tgx::RGB565_Red);
   }
 
-  if (m_touchPoints[1].pm_x != FT6236_INVALID_STATE)
+  if (m_touchPoints.second.x > 0)
   {
-    m_frame.drawCircleAA(m_touchPoints01.second, 15, tgx::RGB565_Green);
-    m_frame.drawFastHLine({ m_touchPoints01.second.x - 2, m_touchPoints01.second.y }, 5, tgx::RGB565_Green);
-    m_frame.drawFastVLine({ m_touchPoints01.second.x, m_touchPoints01.second.y - 2 }, 5, tgx::RGB565_Green);
+    m_frame.drawCircleAA(m_touchPoints.second, 15, tgx::RGB565_Green);
+    m_frame.drawFastHLine({ m_touchPoints.second.x - 2, m_touchPoints.second.y }, 5, tgx::RGB565_Green);
+    m_frame.drawFastVLine({ m_touchPoints.second.x, m_touchPoints.second.y - 2 }, 5, tgx::RGB565_Green);
   }
 
   m_displayDevice.overlayFPS(m_frameBuffer);
@@ -93,38 +100,39 @@ void DisplayHandler::updateTouch()
   {
     m_touchDevice.readData();
 
-    uint16_t firstTouchID = m_touchDevice.touchID[0];
-    uint16_t secondTouchID = m_touchDevice.touchID[1];
-
-    if (firstTouchID < 2)
-    {
-      m_touchPoints[firstTouchID].pm_x = m_touchDevice.touchX[0];
-      m_touchPoints[firstTouchID].pm_y = m_touchDevice.touchY[0];
-    }
-
-    if (secondTouchID < 2)
-    {
-      m_touchPoints[secondTouchID].pm_x = m_touchDevice.touchX[1];
-      m_touchPoints[secondTouchID].pm_y = m_touchDevice.touchY[1];
-    }
-
     if (m_touchDevice.touches > 0)
     {
+      tgx::iVec2 touchPoint0(m_touchDevice.touchY[0], TFT_PIXEL_WIDTH - m_touchDevice.touchX[0]);
+
+      if (m_touchDevice.touches == 1)
+      {
+        m_touchPoints.first = touchPoint0;
+      }
+      else
+      {
+        tgx::iVec2 touchPoint1(m_touchDevice.touchY[1], TFT_PIXEL_WIDTH - m_touchDevice.touchX[1]);
+
+        if (m_screenHalf.first.contains(touchPoint0))
+        {
+          m_touchPoints.first = touchPoint0;
+        }
+
+        if (m_screenHalf.second.contains(touchPoint1))
+        {
+          m_touchPoints.second = touchPoint1;
+        }
+      }
+
       LOG_TRACE(m_touchDevice.touches, " | ",
                 m_touchDevice.touchID[0], " ", m_touchDevice.touchID[1], " ",
                 m_touchDevice.touchX[0], " ", m_touchDevice.touchX[1], " ",
                 m_touchDevice.touchY[0], " ", m_touchDevice.touchY[1], "\n",
-                "p1 ", m_touchPoints[0].pm_x, " ", m_touchPoints[0].pm_y, "\n",
-                "p2 ", m_touchPoints[1].pm_x, " ", m_touchPoints[1].pm_y, "\n");
+                "p1 ", m_touchPoints.first.x, " ", m_touchPoints.first.y, "\n",
+                "p2 ", m_touchPoints.second.x, " ", m_touchPoints.second.y, "\n");
     }
 
     timeSinceTouchUpdated = 0;
-  }
-
-  m_touchPoints01.first.x = m_touchPoints[0].pm_y;
-  m_touchPoints01.first.y = TFT_PIXEL_WIDTH - m_touchPoints[0].pm_x;
-  m_touchPoints01.second.x = m_touchPoints[1].pm_y;
-  m_touchPoints01.second.y = TFT_PIXEL_WIDTH - m_touchPoints[1].pm_x;
+   }
 }
 
 void DisplayHandler::printStatus()
@@ -134,12 +142,12 @@ void DisplayHandler::printStatus()
 
 const tgx::iVec2& DisplayHandler::getTouchPoint0() const
 {
-  return m_touchPoints01.first;
+  return m_touchPoints.first;
 }
 
 const tgx::iVec2& DisplayHandler::getTouchPoint1() const
 {
-  return m_touchPoints01.second;
+  return m_touchPoints.second;
 }
 
 const tgx::Image<tgx::RGB565>& DisplayHandler::getFrame() const
