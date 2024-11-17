@@ -7,7 +7,9 @@
 #include "HapticDriver.hpp"
 #include "OrientationHandler.hpp"
 #include "SerialAudioController.hpp"
+#include "DisplayDefinitions.hpp"
 #include "DisplayHandler.hpp"
+#include "TouchHandler.hpp"
 #include "halvoeLabel.hpp"
 
 using namespace halvoeHandheld;
@@ -15,12 +17,14 @@ using namespace halvoeHandheld;
 SDHandler sdHandler;
 LogFileManager logFileManager;
 
+InputEventHandler inputEventHandler;
 DMAMEM ILI9341_T4::DiffBuffStatic<8192> diffBuffer1;
 DMAMEM ILI9341_T4::DiffBuffStatic<8192> diffBuffer2;
-DMAMEM uint16_t internalFrameBuffer[DisplayHandler::TFT_PIXEL_COUNT];
-DMAMEM uint16_t frameBuffer[DisplayHandler::TFT_PIXEL_COUNT];
+DMAMEM uint16_t internalFrameBuffer[TFT_PIXEL_COUNT];
+DMAMEM uint16_t frameBuffer[TFT_PIXEL_COUNT];
 DisplayHandler displayHandler(internalFrameBuffer, frameBuffer, &diffBuffer1, &diffBuffer2);
-Label label(displayHandler.getFrame(), "Test", 64, 64);
+TouchHandler touchHandler(inputEventHandler.getEventList());
+std::shared_ptr<Label> label = std::make_shared<Label>(displayHandler.getFrame(), "Test", 64, 64);
 
 TrackballHandler trackballHandler0;
 TrackballHandler trackballHandler1;
@@ -42,6 +46,7 @@ void setup()
 
   audioController.setup();
   displayHandler.begin(logFileManager.getLogStreamLibraries());
+  touchHandler.begin(logFileManager.getLogStreamLibraries());
 
   Wire.begin();
   Wire.setClock(1000000);
@@ -54,6 +59,8 @@ void setup()
 
   trackballHandler0.begin(Wire);
   trackballHandler1.begin(Wire1);
+
+  inputEventHandler.addTarget(label);
 
   LOG_INFO("Leave setup...");
 }
@@ -84,13 +91,15 @@ void loop()
   }
 
   displayHandler.getFrame().fillScreen(tgx::RGB565_Black);
-  //if (batteryHandler.isReady()) { label.setText(String(batteryHandler.getStateOfCharge()) + " %"); }
-  if (label.getBoundingBox().contains(displayHandler.getTouchPoint0())) { label.setOutlineColor(tgx::RGB565_Red); } else { label.setOutlineColor(tgx::RGB565_White); }
-  label.draw();
-  
-  displayHandler.updateTouch();
-  displayHandler.updateScreen();
+
+  touchHandler.update();
   orientationHandler.update();
+  inputEventHandler.run();
+  //if (batteryHandler.isReady()) { label.setText(String(batteryHandler.getStateOfCharge()) + " %"); }
+  //if (label.getBoundingBox().contains(displayHandler.getTouchPoint0())) { label.setOutlineColor(tgx::RGB565_Red); } else { label.setOutlineColor(tgx::RGB565_White); }
+  
+  label->draw();
+  displayHandler.update();
 
   logFileManager.flush();
   logFileManager.flushLibraries();

@@ -84,8 +84,10 @@
     <ClCompile Include="halvoeSDHandler.cpp" />
     <ClCompile Include="halvoeUtility.cpp" />
     <ClCompile Include="HapticDriver.cpp" />
+    <ClCompile Include="InputEventHandler.cpp" />
     <ClCompile Include="OrientationHandler.cpp" />
     <ClCompile Include="SerialAudioController.cpp" />
+    <ClCompile Include="TouchHandler.cpp" />
     <ClCompile Include="TrackballHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -107,11 +109,14 @@
       <DeploymentContent>true</DeploymentContent>
     </ClCompile>
     <ClInclude Include="BatteryHandler.hpp" />
+    <ClInclude Include="DisplayDefinitions.hpp" />
     <ClInclude Include="halvoeSDHandler.hpp" />
     <ClInclude Include="halvoeUtility.hpp" />
     <ClInclude Include="HapticDriver.hpp" />
+    <ClInclude Include="InputEventHandler.hpp" />
     <ClInclude Include="OrientationHandler.hpp" />
     <ClInclude Include="SerialAudioController.hpp" />
+    <ClInclude Include="TouchHandler.hpp" />
     <ClInclude Include="TrackballHandler.hpp" />
     <ClInclude Include="__vm\.halvoeHandheld.vsarduino.h" />
   </ItemGroup>

@@ -2,8 +2,9 @@
 
 #include <tgx.h>
 #include <font_SourceCodePro_AA4_lite.h>
+#include "InputEventHandler.hpp"
 
-class Label
+class Label : public InputTarget
 {
   protected:
     tgx::Image<tgx::RGB565> m_target;
@@ -31,4 +32,6 @@ class Label
     void setBackgroundColor(tgx::RGB565 in_backgroundColor);
     void setOutlineColor(tgx::RGB565 in_outlineColor);
     void draw();
+
+    bool handleEvent(const Event& in_event) override;
 };
