@@ -59,24 +59,18 @@ void Label::draw()
   m_target.drawTextEx(m_text.c_str(), m_topLeftPoint, font_SourceCodePro_AA4_lite_14, tgx::Anchor::CENTER, false, false, m_foregroundColor);
 }
 
-bool Label::handleEvent(const Event& in_event)
+void Label::handleEventPressed(const Event& in_event)
 {
-  switch (in_event.m_type)
+  if (getBoundingBox().contains(std::get<tgx::iVec2>(in_event.m_data)))
   {
-    case Event::Type::pressed:
-      if (getBoundingBox().contains(std::get<tgx::iVec2>(in_event.m_data)))
-      {
-        setOutlineColor(tgx::RGB565_Red);
-        return true;
-      }
-    
-    case Event::Type::released:
-      if (getBoundingBox().contains(std::get<tgx::iVec2>(in_event.m_data)))
-      {
-        setOutlineColor(tgx::RGB565_White);
-        return true;
-      }
+    setOutlineColor(tgx::RGB565_Red);
   }
+}
 
-  return false;
+void Label::handleEventReleased(const Event& in_event)
+{
+  if (getBoundingBox().contains(std::get<tgx::iVec2>(in_event.m_data)))
+  {
+    setOutlineColor(tgx::RGB565_White);
+  }
 }

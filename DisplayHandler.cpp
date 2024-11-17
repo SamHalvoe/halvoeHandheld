@@ -55,20 +55,6 @@ namespace halvoeHandheld
 
   void DisplayHandler::update()
   {
-    /*if (m_touchPoints.first.x > 0)
-    {
-      m_frame.drawCircleAA(m_touchPoints.first, 15, tgx::RGB565_Red);
-      m_frame.drawFastHLine({ m_touchPoints.first.x - 2, m_touchPoints.first.y }, 5, tgx::RGB565_Red);
-      m_frame.drawFastVLine({ m_touchPoints.first.x, m_touchPoints.first.y - 2 }, 5, tgx::RGB565_Red);
-    }
-
-    if (m_touchPoints.second.x > 0)
-    {
-      m_frame.drawCircleAA(m_touchPoints.second, 15, tgx::RGB565_Green);
-      m_frame.drawFastHLine({ m_touchPoints.second.x - 2, m_touchPoints.second.y }, 5, tgx::RGB565_Green);
-      m_frame.drawFastVLine({ m_touchPoints.second.x, m_touchPoints.second.y - 2 }, 5, tgx::RGB565_Green);
-    }*/
-
     m_displayDevice.overlayFPS(m_frameBuffer);
     m_displayDevice.update(m_frameBuffer);
   }

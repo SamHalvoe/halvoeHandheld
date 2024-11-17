@@ -4,7 +4,7 @@
 #include <font_SourceCodePro_AA4_lite.h>
 #include "InputEventHandler.hpp"
 
-class Label : public InputTarget
+class Label
 {
   protected:
     tgx::Image<tgx::RGB565> m_target;
@@ -33,5 +33,6 @@ class Label : public InputTarget
     void setOutlineColor(tgx::RGB565 in_outlineColor);
     void draw();
 
-    bool handleEvent(const Event& in_event) override;
+    void handleEventPressed(const Event& in_event);
+    void handleEventReleased(const Event& in_event);
 };

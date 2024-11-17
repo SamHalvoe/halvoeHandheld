@@ -4,7 +4,7 @@
 
 namespace halvoeHandheld
 {
-  TouchHandler::TouchHandler(std::vector<Event>& out_eventList) : InputSource(out_eventList), m_touchDevice(Wire2)
+  TouchHandler::TouchHandler() : m_touchDevice(Wire2)
   {
     m_touchPoints.first = { -1, -1 };
     m_touchPoints.second = { -1, -1 };
@@ -41,14 +41,13 @@ namespace halvoeHandheld
     if (m_timeSinceTouchUpdated > m_touchUpdateInterval)
     {
       m_touchDevice.readData();
-      std::vector<Event> eventList;
 
       if (m_touchDevice.touches > 0)
       {
         tgx::iVec2 touchPoint0(m_touchDevice.touchY[0], TFT_PIXEL_WIDTH - m_touchDevice.touchX[0]);
         m_touchPoints.first = touchPoint0;
         m_isTouched.first = true;
-        eventList.emplace_back(Event{ Event::Type::pressed, m_touchPoints.first });
+        dispatchEvent({ Event::Type::pressed, m_touchPoints.first });
         
         if (m_touchDevice.touches > 1)
         {
@@ -58,13 +57,13 @@ namespace halvoeHandheld
           {
             m_touchPoints.second = touchPoint1;
             m_isTouched.second = true;
-            eventList.emplace_back(Event{ Event::Type::pressed, m_touchPoints.second });
+            dispatchEvent({ Event::Type::pressed, m_touchPoints.second });
           }
         }
         else if (m_isTouched.second)
         {
           m_isTouched.second = false;
-          eventList.emplace_back(Event{ Event::Type::released, m_touchPoints.second });
+          dispatchEvent({ Event::Type::released, m_touchPoints.second });
         }
 
         LOG_TRACE(m_touchDevice.touches, " | ",
@@ -73,24 +72,20 @@ namespace halvoeHandheld
                   m_touchDevice.touchY[0], " ", m_touchDevice.touchY[1], "\n",
                   "p1 ", m_touchPoints.first.x, " ", m_touchPoints.first.y, "\n",
                   "p2 ", m_touchPoints.second.x, " ", m_touchPoints.second.y, "\n");
-
-        addEvents(eventList);
       }
       else
       {
         if (m_isTouched.first)
         {
           m_isTouched.first = false;
-          eventList.emplace_back(Event{ Event::Type::released, m_touchPoints.first });
+          dispatchEvent({ Event::Type::released, m_touchPoints.first });
         }
 
         if (m_isTouched.second)
         {
           m_isTouched.second = false;
-          eventList.emplace_back(Event{ Event::Type::released, m_touchPoints.second });
+          dispatchEvent({ Event::Type::released, m_touchPoints.second });
         }
-
-        addEvents(eventList);
       }
 
       m_timeSinceTouchUpdated = 0;

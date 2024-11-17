@@ -1,49 +1,18 @@
 #include "InputEventHandler.hpp"
 
-// ---- CLASS: InputSource
+// ---- CLASS: EventSource
 
-void InputSource::addEvents(std::vector<Event>& in_eventList)
+void EventSource::dispatchEvent(Event&& in_event)
 {
-  m_eventList.insert(m_eventList.end(), in_eventList.begin(), in_eventList.end());
-}
-
-InputSource::InputSource(std::vector<Event>& out_eventList) : m_eventList(out_eventList)
-{}
-
-// ---- CLASS: InputEventHandler
-
-std::vector<Event>& InputEventHandler::getEventList()
-{
-  return m_eventList;
-}
-
-bool InputEventHandler::run()
-{
-  for (auto& target : m_targetList)
+  auto range = m_eventHandlerMap.equal_range(in_event.m_type);
+  
+  for (auto iterator = range.first; iterator != range.second; ++iterator)
   {
-    auto iterator = m_eventList.cend();
-    for (;iterator != m_eventList.cend(); ++iterator)
-    {
-      if (target->handleEvent(m_eventList[0])) { break; }
-    }
-
-    if (iterator != m_eventList.cend())
-    {
-      m_eventList.erase(iterator);
-    }
+    iterator->second(in_event); // call callback with in_event
   }
-
-  return true;
 }
 
-bool InputEventHandler::addSource(std::shared_ptr<InputSource> in_source)
+void EventSource::addEventCallback(Event::Type in_type, EventCallback in_callback)
 {
-  m_sourceList.emplace_back(in_source);
-  return true;
-}
-
-bool InputEventHandler::addTarget(std::shared_ptr<InputTarget> in_target)
-{
-  m_targetList.emplace_back(in_target);
-  return true;
+  m_eventHandlerMap.emplace(in_type, in_callback);
 }

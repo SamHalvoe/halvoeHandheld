@@ -17,14 +17,13 @@ using namespace halvoeHandheld;
 SDHandler sdHandler;
 LogFileManager logFileManager;
 
-InputEventHandler inputEventHandler;
 DMAMEM ILI9341_T4::DiffBuffStatic<8192> diffBuffer1;
 DMAMEM ILI9341_T4::DiffBuffStatic<8192> diffBuffer2;
 DMAMEM uint16_t internalFrameBuffer[TFT_PIXEL_COUNT];
 DMAMEM uint16_t frameBuffer[TFT_PIXEL_COUNT];
 DisplayHandler displayHandler(internalFrameBuffer, frameBuffer, &diffBuffer1, &diffBuffer2);
-TouchHandler touchHandler(inputEventHandler.getEventList());
-std::shared_ptr<Label> label = std::make_shared<Label>(displayHandler.getFrame(), "Test", 64, 64);
+TouchHandler touchHandler;
+Label label(displayHandler.getFrame(), "Test", 64, 64);
 
 TrackballHandler trackballHandler0;
 TrackballHandler trackballHandler1;
@@ -47,6 +46,8 @@ void setup()
   audioController.setup();
   displayHandler.begin(logFileManager.getLogStreamLibraries());
   touchHandler.begin(logFileManager.getLogStreamLibraries());
+  touchHandler.addEventCallback(Event::Type::pressed, [](const Event& in_event){ label.handleEventPressed(in_event); });
+  touchHandler.addEventCallback(Event::Type::released, [](const Event& in_event) { label.handleEventReleased(in_event); });
 
   Wire.begin();
   Wire.setClock(1000000);
@@ -59,8 +60,6 @@ void setup()
 
   trackballHandler0.begin(Wire);
   trackballHandler1.begin(Wire1);
-
-  inputEventHandler.addTarget(label);
 
   LOG_INFO("Leave setup...");
 }
@@ -94,11 +93,23 @@ void loop()
 
   touchHandler.update();
   orientationHandler.update();
-  inputEventHandler.run();
   //if (batteryHandler.isReady()) { label.setText(String(batteryHandler.getStateOfCharge()) + " %"); }
-  //if (label.getBoundingBox().contains(displayHandler.getTouchPoint0())) { label.setOutlineColor(tgx::RGB565_Red); } else { label.setOutlineColor(tgx::RGB565_White); }
-  
-  label->draw();
+  label.draw();
+
+  if (touchHandler.getFirstTouchPoint().x > 0)
+  {
+    displayHandler.getFrame().drawCircleAA(touchHandler.getFirstTouchPoint(), 15, tgx::RGB565_Red);
+    displayHandler.getFrame().drawFastHLine({ touchHandler.getFirstTouchPoint().x - 2, touchHandler.getFirstTouchPoint().y }, 5, tgx::RGB565_Red);
+    displayHandler.getFrame().drawFastVLine({ touchHandler.getFirstTouchPoint().x, touchHandler.getFirstTouchPoint().y - 2 }, 5, tgx::RGB565_Red);
+  }
+
+  if (touchHandler.getSecondTouchPoint().x > 0)
+  {
+    displayHandler.getFrame().drawCircleAA(touchHandler.getSecondTouchPoint(), 15, tgx::RGB565_Green);
+    displayHandler.getFrame().drawFastHLine({ touchHandler.getSecondTouchPoint().x - 2, touchHandler.getSecondTouchPoint().y }, 5, tgx::RGB565_Green);
+    displayHandler.getFrame().drawFastVLine({ touchHandler.getSecondTouchPoint().x, touchHandler.getSecondTouchPoint().y - 2 }, 5, tgx::RGB565_Green);
+  }
+
   displayHandler.update();
 
   logFileManager.flush();

@@ -11,7 +11,7 @@ namespace halvoeHandheld
   const uint8_t TOUCH_SDA_PIN = 25;
   const uint8_t TOUCH_THRESHHOLD = 32;
 
-  class TouchHandler : public InputSource
+  class TouchHandler : public EventSource
   {
     private:
       uint8_t m_touchUpdateInterval = 25;
@@ -19,10 +19,10 @@ namespace halvoeHandheld
       FT6236 m_touchDevice;
       std::pair<tgx::iVec2, tgx::iVec2> m_touchPoints;
       std::pair<bool, bool> m_isTouched;
-      std::pair<tgx::iBox2, tgx::iBox2> m_screenHalf;
+      std::pair<tgx::iBox2, tgx::iBox2> m_screenHalf; // reduce this to (x or y?) > (TFT_PIXEL_HEIGHT / 2)
 
     public:
-      TouchHandler(std::vector<Event>& out_eventList);
+      TouchHandler();
       bool begin(Stream& out_loggingStreamLibraries);
       void update();
       uint8_t getTouchCount() const;
