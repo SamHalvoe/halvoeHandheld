@@ -14,7 +14,6 @@ namespace halvoeHandheld
   class TouchHandler : public EventSource
   {
     private:
-      uint8_t m_lastTouchCount = 0;
       uint8_t m_touchUpdateInterval = 25;
       elapsedMillis m_timeSinceTouchUpdated;
       FT6236 m_touchDevice;

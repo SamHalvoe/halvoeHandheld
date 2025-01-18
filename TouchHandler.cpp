@@ -70,7 +70,36 @@ namespace halvoeHandheld
         break;
 
         case 1:
-          m_touchPoints.first = { m_touchDevice.touchY[0], TFT_PIXEL_WIDTH - m_touchDevice.touchX[0] };
+        {
+          tgx::iVec2 point0(m_touchDevice.touchY[0], TFT_PIXEL_WIDTH - m_touchDevice.touchX[0]);
+
+          if (halvoe::distanceVec(m_touchPoints.first, point0) <= halvoe::distanceVec(m_touchPoints.second, point0))
+          {
+            m_touchPoints.first = { m_touchDevice.touchY[0], TFT_PIXEL_WIDTH - m_touchDevice.touchX[0] };
+            m_isTouched.first = true;
+            dispatchEvent({ Event::Type::pressed, 0, m_touchPoints.first });
+
+            if (m_isTouched.second)
+            {
+              m_isTouched.second = false;
+              dispatchEvent({ Event::Type::released, 1, m_touchPoints.second });
+            }
+          }
+          else
+          {
+            m_touchPoints.second = { m_touchDevice.touchY[0], TFT_PIXEL_WIDTH - m_touchDevice.touchX[0] };
+            m_isTouched.second = true;
+            dispatchEvent({ Event::Type::pressed, 1, m_touchPoints.second });
+
+            if (m_isTouched.first)
+            {
+              m_isTouched.first = false;
+              dispatchEvent({ Event::Type::released, 0, m_touchPoints.first });
+            }
+          }
+        }
+
+          /*m_touchPoints.first = {m_touchDevice.touchY[0], TFT_PIXEL_WIDTH - m_touchDevice.touchX[0]};
           m_isTouched.first = true;
           dispatchEvent({ Event::Type::pressed, 0, m_touchPoints.first });
 
@@ -78,7 +107,7 @@ namespace halvoeHandheld
           {
             m_isTouched.second = false;
             dispatchEvent({ Event::Type::released, 1, m_touchPoints.second });
-          }
+          }*/
         break;
 
         case 2:
@@ -99,14 +128,12 @@ namespace halvoeHandheld
 
           m_isTouched.first = true;
           dispatchEvent({ Event::Type::pressed, 0, m_touchPoints.first });
-
           m_isTouched.second = true;
           dispatchEvent({ Event::Type::pressed, 1, m_touchPoints.second });
         }
         break;
       }
 
-      m_lastTouchCount = m_touchDevice.touches;
       m_timeSinceTouchUpdated = 0;
      }
   }
