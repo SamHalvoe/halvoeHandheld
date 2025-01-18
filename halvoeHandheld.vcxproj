@@ -86,6 +86,7 @@
     <ClCompile Include="HapticDriver.cpp" />
     <ClCompile Include="InputEventHandler.cpp" />
     <ClCompile Include="OrientationHandler.cpp" />
+    <ClCompile Include="PowerButton.cpp" />
     <ClCompile Include="SerialAudioController.cpp" />
     <ClCompile Include="TouchHandler.cpp" />
     <ClCompile Include="TrackballHandler.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="HapticDriver.hpp" />
     <ClInclude Include="InputEventHandler.hpp" />
     <ClInclude Include="OrientationHandler.hpp" />
+    <ClInclude Include="PowerButton.hpp" />
     <ClInclude Include="SerialAudioController.hpp" />
     <ClInclude Include="TouchHandler.hpp" />
     <ClInclude Include="TrackballHandler.hpp" />

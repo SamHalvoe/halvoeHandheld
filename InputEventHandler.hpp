@@ -26,7 +26,7 @@ struct Event
     std::variant<tgx::iVec2> m_data;
 };
 
-// ---- FUNCTION POINTER: EventCallback
+// ---- FUNCTION OBJECT: EventCallback
 
 using EventCallback = std::function<void(const Event& in_event)>;
 

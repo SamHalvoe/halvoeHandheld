@@ -3,6 +3,7 @@
 #include "halvoeLog.hpp"
 #include "halvoeSDHandler.hpp"
 #include "BatteryHandler.hpp"
+#include "PowerButton.hpp"
 #include "TrackballHandler.hpp"
 #include "HapticDriver.hpp"
 #include "OrientationHandler.hpp"
@@ -29,6 +30,7 @@ Label label1(displayHandler.getFrame(), "Test1", 320 - 64, 64);
 TrackballHandler trackballHandler0;
 TrackballHandler trackballHandler1;
 BatteryHandler batteryHandler(Wire1);
+PowerButton powerButton(33, 34, 3000);
 HapticDriver hapticDriver;
 OrientationHandler orientationHandler;
 SerialAudioController audioController(Serial3);
@@ -52,6 +54,26 @@ void setup()
   touchHandler.addEventCallback(Event::Type::pressed, [](const Event& in_event) { label1.handleEventPressed(in_event); });
   touchHandler.addEventCallback(Event::Type::released, [](const Event& in_event) { label1.handleEventReleased(in_event); });
 
+  powerButton.setPowerOffRequestHandler([]() {
+    displayHandler.getFrame().fillScreen(tgx::RGB565_Red);
+    displayHandler.update();
+    
+    while (true)
+    {
+      trackballHandler0.update();
+      trackballHandler1.update();
+
+      if (trackballHandler0.clicked())
+      {
+        return true;
+      }
+      else if (trackballHandler1.clicked())
+      {
+        return false;
+      }
+    }
+  });
+
   Wire.begin();
   Wire.setClock(1000000);
   Wire1.begin();
@@ -69,6 +91,7 @@ void setup()
 
 void loop()
 {
+  powerButton.update();
   trackballHandler0.update();
   trackballHandler1.update();
   batteryHandler.update();
