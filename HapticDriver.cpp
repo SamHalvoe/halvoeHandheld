@@ -8,19 +8,15 @@ bool HapticDriver::setup()
 {
   if (m_driver.begin(&Wire1))
   {
-    m_driver.selectLibrary(1);
-
-    // I2C trigger by sending 'go' command 
-    // default, internal trigger when sending GO command
-    m_driver.setMode(DRV2605_MODE_INTTRIG);
-
-    // set the effect to play
-    m_driver.setWaveform(0, 118);  // set effect to play "Long buzz for programmatic stopping – 100%"
-    m_driver.setWaveform(1, 0);    // end waveform
-
-    /*m_driver.go();
-    delay(100);
-    m_driver.stop();*/
+    m_driver.useLRA();
+    m_driver.setMode(DRV2605_MODE_REALTIME);
+    m_driver.writeRegister8(DRV2605_REG_CONTROL3, m_driver.readRegister8(DRV2605_REG_CONTROL3) | 0x08); // set DATA_FORMAT_RTP to unsigned (0-255)
+    
+    /*LOG_INFO("m_driver.setRealtimeValue(255)");
+    m_driver.setRealtimeValue(255);
+    delay(3000);
+    m_driver.setRealtimeValue(0);
+    LOG_INFO("m_driver.setRealtimeValue(0)");*/
   }
   else
   {
