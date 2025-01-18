@@ -10,7 +10,9 @@
 struct Event
 {
   public:
-    enum class Type : uint8_t
+    static const uint16_t NO_ID = 0xFFFF;
+
+    enum class Type : uint16_t
     {
       moved = 0,
       pressed,
@@ -20,6 +22,7 @@ struct Event
 
   public:
     Type m_type;
+    uint16_t m_id = NO_ID;
     std::variant<tgx::iVec2> m_data;
 };
 

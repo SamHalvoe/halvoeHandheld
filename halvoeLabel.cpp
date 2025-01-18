@@ -63,14 +63,16 @@ void Label::handleEventPressed(const Event& in_event)
 {
   if (getBoundingBox().contains(std::get<tgx::iVec2>(in_event.m_data)))
   {
+    m_eventID = in_event.m_id;
     setOutlineColor(tgx::RGB565_Red);
   }
 }
 
 void Label::handleEventReleased(const Event& in_event)
 {
-  if (getBoundingBox().contains(std::get<tgx::iVec2>(in_event.m_data)))
+  if (m_eventID == in_event.m_id)
   {
+    m_eventID = Event::NO_ID;
     setOutlineColor(tgx::RGB565_White);
   }
 }

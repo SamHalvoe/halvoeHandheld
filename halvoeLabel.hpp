@@ -15,6 +15,7 @@ class Label
     tgx::RGB565 m_foregroundColor = tgx::RGB565_White;
     tgx::RGB565 m_backgroundColor = tgx::RGB565_Black;
     tgx::RGB565 m_outlineColor = tgx::RGB565_White;
+    uint16_t m_eventID = Event::NO_ID;
 
   protected:
     void updateBoundingBox();

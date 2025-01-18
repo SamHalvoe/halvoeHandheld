@@ -47,7 +47,7 @@ namespace halvoeHandheld
         tgx::iVec2 touchPoint0(m_touchDevice.touchY[0], TFT_PIXEL_WIDTH - m_touchDevice.touchX[0]);
         m_touchPoints.first = touchPoint0;
         m_isTouched.first = true;
-        dispatchEvent({ Event::Type::pressed, m_touchPoints.first });
+        dispatchEvent({ Event::Type::pressed, 0, m_touchPoints.first });
         
         if (m_touchDevice.touches > 1)
         {
@@ -57,13 +57,13 @@ namespace halvoeHandheld
           {
             m_touchPoints.second = touchPoint1;
             m_isTouched.second = true;
-            dispatchEvent({ Event::Type::pressed, m_touchPoints.second });
+            dispatchEvent({ Event::Type::pressed, 1, m_touchPoints.second });
           }
         }
         else if (m_isTouched.second)
         {
           m_isTouched.second = false;
-          dispatchEvent({ Event::Type::released, m_touchPoints.second });
+          dispatchEvent({ Event::Type::released, 1, m_touchPoints.second });
         }
 
         LOG_TRACE(m_touchDevice.touches, " | ",
@@ -78,13 +78,13 @@ namespace halvoeHandheld
         if (m_isTouched.first)
         {
           m_isTouched.first = false;
-          dispatchEvent({ Event::Type::released, m_touchPoints.first });
+          dispatchEvent({ Event::Type::released, 0, m_touchPoints.first });
         }
 
         if (m_isTouched.second)
         {
           m_isTouched.second = false;
-          dispatchEvent({ Event::Type::released, m_touchPoints.second });
+          dispatchEvent({ Event::Type::released, 1, m_touchPoints.second });
         }
       }
 

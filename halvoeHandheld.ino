@@ -23,7 +23,8 @@ DMAMEM uint16_t internalFrameBuffer[TFT_PIXEL_COUNT];
 DMAMEM uint16_t frameBuffer[TFT_PIXEL_COUNT];
 DisplayHandler displayHandler(internalFrameBuffer, frameBuffer, &diffBuffer1, &diffBuffer2);
 TouchHandler touchHandler;
-Label label(displayHandler.getFrame(), "Test", 64, 64);
+Label label0(displayHandler.getFrame(), "Test0", 64, 64);
+Label label1(displayHandler.getFrame(), "Test1", 320 - 64, 64);
 
 TrackballHandler trackballHandler0;
 TrackballHandler trackballHandler1;
@@ -46,8 +47,10 @@ void setup()
   audioController.setup();
   displayHandler.begin(logFileManager.getLogStreamLibraries());
   touchHandler.begin(logFileManager.getLogStreamLibraries());
-  touchHandler.addEventCallback(Event::Type::pressed, [](const Event& in_event){ label.handleEventPressed(in_event); });
-  touchHandler.addEventCallback(Event::Type::released, [](const Event& in_event) { label.handleEventReleased(in_event); });
+  touchHandler.addEventCallback(Event::Type::pressed, [](const Event& in_event){ label0.handleEventPressed(in_event); });
+  touchHandler.addEventCallback(Event::Type::released, [](const Event& in_event) { label0.handleEventReleased(in_event); });
+  touchHandler.addEventCallback(Event::Type::pressed, [](const Event& in_event) { label1.handleEventPressed(in_event); });
+  touchHandler.addEventCallback(Event::Type::released, [](const Event& in_event) { label1.handleEventReleased(in_event); });
 
   Wire.begin();
   Wire.setClock(1000000);
@@ -94,7 +97,8 @@ void loop()
   touchHandler.update();
   orientationHandler.update();
   //if (batteryHandler.isReady()) { label.setText(String(batteryHandler.getStateOfCharge()) + " %"); }
-  label.draw();
+  label0.draw();
+  label1.draw();
 
   if (touchHandler.getFirstTouchPoint().x > 0)
   {
