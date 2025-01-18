@@ -1,5 +1,6 @@
 #include "TouchHandler.hpp"
 #include "DisplayDefinitions.hpp"
+#include "halvoeUtility.hpp"
 #include "halvoeLog.hpp"
 
 namespace halvoeHandheld
@@ -44,50 +45,68 @@ namespace halvoeHandheld
 
       if (m_touchDevice.touches > 0)
       {
-        tgx::iVec2 touchPoint0(m_touchDevice.touchY[0], TFT_PIXEL_WIDTH - m_touchDevice.touchX[0]);
-        m_touchPoints.first = touchPoint0;
-        m_isTouched.first = true;
-        dispatchEvent({ Event::Type::pressed, 0, m_touchPoints.first });
-        
-        if (m_touchDevice.touches > 1)
-        {
-          tgx::iVec2 touchPoint1(m_touchDevice.touchY[1], TFT_PIXEL_WIDTH - m_touchDevice.touchX[1]);
-
-          if (m_screenHalf.second.contains(touchPoint1))
-          {
-            m_touchPoints.second = touchPoint1;
-            m_isTouched.second = true;
-            dispatchEvent({ Event::Type::pressed, 1, m_touchPoints.second });
-          }
-        }
-        else if (m_isTouched.second)
-        {
-          m_isTouched.second = false;
-          dispatchEvent({ Event::Type::released, 1, m_touchPoints.second });
-        }
-
-        LOG_TRACE(m_touchDevice.touches, " | ",
-                  m_touchDevice.touchID[0], " ", m_touchDevice.touchID[1], " ",
-                  m_touchDevice.touchX[0], " ", m_touchDevice.touchX[1], " ",
-                  m_touchDevice.touchY[0], " ", m_touchDevice.touchY[1], "\n",
-                  "p1 ", m_touchPoints.first.x, " ", m_touchPoints.first.y, "\n",
-                  "p2 ", m_touchPoints.second.x, " ", m_touchPoints.second.y, "\n");
+      /*LOG_TRACE*/LOG_INFO(m_touchDevice.touches, " | ",
+        m_touchDevice.touchID[0], " ", m_touchDevice.touchID[1], " ",
+        m_touchDevice.touchX[0], " ", m_touchDevice.touchX[1], " ",
+        m_touchDevice.touchY[0], " ", m_touchDevice.touchY[1], "\n",
+        "p1 ", m_touchPoints.first.x, " ", m_touchPoints.first.y, "\n",
+        "p2 ", m_touchPoints.second.x, " ", m_touchPoints.second.y, "\n");
       }
-      else
+
+      switch (m_touchDevice.touches)
       {
-        if (m_isTouched.first)
-        {
-          m_isTouched.first = false;
-          dispatchEvent({ Event::Type::released, 0, m_touchPoints.first });
-        }
+        case 0:
+          if (m_isTouched.first)
+          {
+            m_isTouched.first = false;
+            dispatchEvent({ Event::Type::released, 0, m_touchPoints.first });
+          }
 
-        if (m_isTouched.second)
+          if (m_isTouched.second)
+          {
+            m_isTouched.second = false;
+            dispatchEvent({ Event::Type::released, 1, m_touchPoints.second });
+          }
+        break;
+
+        case 1:
+          m_touchPoints.first = { m_touchDevice.touchY[0], TFT_PIXEL_WIDTH - m_touchDevice.touchX[0] };
+          m_isTouched.first = true;
+          dispatchEvent({ Event::Type::pressed, 0, m_touchPoints.first });
+
+          if (m_isTouched.second)
+          {
+            m_isTouched.second = false;
+            dispatchEvent({ Event::Type::released, 1, m_touchPoints.second });
+          }
+        break;
+
+        case 2:
         {
-          m_isTouched.second = false;
-          dispatchEvent({ Event::Type::released, 1, m_touchPoints.second });
+          tgx::iVec2 point0(m_touchDevice.touchY[0], TFT_PIXEL_WIDTH - m_touchDevice.touchX[0]);
+          tgx::iVec2 point1(m_touchDevice.touchY[1], TFT_PIXEL_WIDTH - m_touchDevice.touchX[1]);
+          
+          if (halvoe::distanceVec(m_touchPoints.first, point0) < halvoe::distanceVec(m_touchPoints.first, point1))
+          {
+            m_touchPoints.first = point0;
+            m_touchPoints.second = point1;
+          }
+          else
+          {
+            m_touchPoints.first = point1;
+            m_touchPoints.second = point0;
+          }
+
+          m_isTouched.first = true;
+          dispatchEvent({ Event::Type::pressed, 0, m_touchPoints.first });
+
+          m_isTouched.second = true;
+          dispatchEvent({ Event::Type::pressed, 1, m_touchPoints.second });
         }
+        break;
       }
 
+      m_lastTouchCount = m_touchDevice.touches;
       m_timeSinceTouchUpdated = 0;
      }
   }
